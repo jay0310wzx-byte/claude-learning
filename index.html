@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>原发性肝癌外科学智能教学平台</title>
+  <style>
+    :root{
+      --bg:#07111f;
+      --bg2:#0b1f36;
+      --card:rgba(255,255,255,.08);
+      --card2:rgba(255,255,255,.12);
+      --line:rgba(255,255,255,.16);
+      --text:#eef6ff;
+      --muted:#a9bad0;
+      --blue:#34b7ff;
+      --cyan:#6fe7ff;
+      --gold:#ffd36e;
+      --green:#45e0a8;
+      --red:#ff6e7f;
+      --purple:#a78bfa;
+      --shadow:0 24px 70px rgba(0,0,0,.35);
+      --radius:26px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:"Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 15% 8%, rgba(52,183,255,.25), transparent 36%),
+        radial-gradient(circle at 88% 18%, rgba(167,139,250,.22), transparent 34%),
+        linear-gradient(135deg, #050914 0%, #07111f 45%, #0b213a 100%);
+      min-height:100vh;
+    }
+    a{color:inherit;text-decoration:none}
+    .app{display:grid;grid-template-columns:280px 1fr;min-height:100vh}
+    .sidebar{
+      position:sticky;top:0;height:100vh;padding:26px 22px;
+      border-right:1px solid var(--line);
+      background:rgba(4,12,24,.72);backdrop-filter:blur(18px);
+    }
+    .brand{display:flex;gap:12px;align-items:center;margin-bottom:26px}
+    .logo{
+      width:48px;height:48px;border-radius:16px;
+      background:linear-gradient(135deg,var(--blue),var(--purple));
+      display:grid;place-items:center;box-shadow:0 12px 34px rgba(52,183,255,.28);
+      font-weight:900;font-size:20px;
+    }
+    .brand h1{font-size:17px;margin:0;line-height:1.25}
+    .brand p{font-size:12px;margin:3px 0 0;color:var(--muted)}
+    .nav{display:flex;flex-direction:column;gap:10px;margin-top:20px}
+    .nav button{
+      border:1px solid transparent;background:transparent;color:var(--muted);
+      text-align:left;padding:13px 14px;border-radius:15px;cursor:pointer;font-size:14px;
+      transition:.25s;display:flex;align-items:center;gap:10px;
+    }
+    .nav button:hover,.nav button.active{
+      color:#fff;background:rgba(52,183,255,.12);border-color:rgba(111,231,255,.25);
+      transform:translateX(4px);
+    }
+    .side-card{
+      margin-top:28px;padding:17px;border:1px solid var(--line);border-radius:22px;
+      background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.04));
+    }
+    .progress-ring{width:110px;height:110px;margin:10px auto;position:relative}
+    .progress-ring svg{transform:rotate(-90deg)}
+    .progress-ring .num{position:absolute;inset:0;display:grid;place-items:center;font-size:24px;font-weight:800;color:var(--cyan)}
+    main{padding:28px 34px 70px;overflow:hidden}
+    .hero{
+      position:relative;min-height:430px;border:1px solid var(--line);border-radius:34px;
+      overflow:hidden;background:
+      linear-gradient(120deg,rgba(16,44,80,.92),rgba(8,18,34,.78)),
+      radial-gradient(circle at 80% 30%,rgba(111,231,255,.18),transparent 40%);
+      box-shadow:var(--shadow);padding:42px;display:grid;grid-template-columns:1.05fr .95fr;gap:28px;align-items:center;
+    }
+    .badge{display:inline-flex;gap:8px;align-items:center;padding:8px 13px;border-radius:999px;border:1px solid rgba(111,231,255,.28);background:rgba(111,231,255,.09);color:#c9f7ff;font-size:13px;margin-bottom:18px}
+    .hero h2{font-size:44px;line-height:1.12;margin:0 0 18px;letter-spacing:-.5px}
+    .hero p{font-size:17px;line-height:1.8;color:#c7d8ec;margin:0 0 24px;max-width:680px}
+    .hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+    .btn{
+      border:0;border-radius:15px;padding:13px 18px;cursor:pointer;color:#05111f;font-weight:800;
+      background:linear-gradient(135deg,var(--cyan),var(--blue));box-shadow:0 14px 34px rgba(52,183,255,.28);
+    }
+    .btn.secondary{background:rgba(255,255,255,.1);color:#fff;border:1px solid var(--line);box-shadow:none}
+    .visual{min-height:330px;display:grid;place-items:center;position:relative}
+    .glow{position:absolute;width:280px;height:280px;border-radius:50%;background:rgba(52,183,255,.18);filter:blur(30px)}
+    .section{display:none;margin-top:26px;animation:fade .35s ease}
+    .section.active{display:block}
+    @keyframes fade{from{opacity:.3;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+    .card{
+      background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;
+      box-shadow:0 18px 50px rgba(0,0,0,.22);backdrop-filter:blur(16px);
+    }
+    .card h3{margin:0 0 12px;font-size:24px}
+    .card h4{margin:0 0 10px;font-size:18px;color:#dff7ff}
+    .card p,.card li{color:#c5d5e8;line-height:1.78;font-size:15px}
+    .span-4{grid-column:span 4}.span-5{grid-column:span 5}.span-6{grid-column:span 6}.span-7{grid-column:span 7}.span-8{grid-column:span 8}.span-12{grid-column:span 12}
+    .tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+    .tab{padding:10px 14px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:var(--muted);cursor:pointer}
+    .tab.active{background:linear-gradient(135deg,rgba(52,183,255,.35),rgba(111,231,255,.12));color:#fff;border-color:rgba(111,231,255,.45)}
+    .module-panel{display:none}.module-panel.active{display:block}
+    .pill{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid var(--line);margin:4px;color:#d7ebff;font-size:13px}
+    .timeline{position:relative;padding-left:24px}.timeline:before{content:"";position:absolute;left:7px;top:4px;bottom:4px;width:2px;background:linear-gradient(var(--cyan),transparent)}
+    .step{position:relative;margin:0 0 18px}.step:before{content:"";position:absolute;left:-22px;top:8px;width:12px;height:12px;border-radius:50%;background:var(--cyan);box-shadow:0 0 18px var(--cyan)}
+    .case-box{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .choice{display:block;width:100%;text-align:left;padding:14px 16px;border-radius:16px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:#d8e9fb;margin:10px 0;cursor:pointer;transition:.2s}
+    .choice:hover{background:rgba(52,183,255,.13);transform:translateY(-1px)}
+    .choice.correct{border-color:rgba(69,224,168,.8);background:rgba(69,224,168,.16)}
+    .choice.wrong{border-color:rgba(255,110,127,.8);background:rgba(255,110,127,.13)}
+    .feedback{margin-top:12px;padding:14px;border-radius:16px;background:rgba(0,0,0,.18);border:1px solid var(--line);color:#d7e8fb;display:none}
+    .meter{height:12px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden;border:1px solid var(--line)}
+    .meter span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--cyan));transition:.5s}
+    .stat{display:flex;justify-content:space-between;gap:12px;align-items:center;margin:14px 0}
+    .stat strong{font-size:22px;color:#fff}.stat small{color:var(--muted)}
+    .analysis-list{display:grid;gap:12px}.analysis-item{padding:14px;border-radius:16px;background:rgba(255,255,255,.06);border:1px solid var(--line)}
+    .hot{color:var(--gold)}.green{color:var(--green)}.red{color:var(--red)}.cyan{color:var(--cyan)}
+    .svg-card{width:100%;max-width:560px;filter:drop-shadow(0 30px 45px rgba(0,0,0,.38))}
+    .label-line{stroke:rgba(255,255,255,.72);stroke-width:1.2;stroke-dasharray:3 3}.svg-text{fill:#eaf7ff;font-size:13px;font-weight:700}.svg-muted{fill:#a9bad0;font-size:11px}
+    .small-note{font-size:13px;color:#9fb4cc;margin-top:12px}
+    table{width:100%;border-collapse:collapse;overflow:hidden;border-radius:18px}
+    th,td{padding:14px;border-bottom:1px solid var(--line);text-align:left;color:#c9d9eb;vertical-align:top;font-size:14px;line-height:1.6}
+    th{color:#fff;background:rgba(255,255,255,.07)}
+    .floating-tip{position:fixed;right:24px;bottom:24px;max-width:330px;padding:16px;border-radius:20px;background:rgba(5,14,26,.86);border:1px solid rgba(111,231,255,.26);backdrop-filter:blur(14px);box-shadow:var(--shadow);display:none;z-index:99}
+    .floating-tip b{color:#fff}.floating-tip p{margin:8px 0 0;color:#c4d7ea;line-height:1.6;font-size:14px}
+    .interactive-map{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:center}
+    .liver-seg{cursor:pointer;transition:.25s;filter:drop-shadow(0 8px 18px rgba(0,0,0,.18))}.liver-seg:hover{opacity:.78;transform:translateY(-2px)}
+    .info-panel{padding:18px;border-radius:22px;background:rgba(255,255,255,.07);border:1px solid var(--line);min-height:190px}
+    .decision-tree{display:grid;gap:12px}.tree-node{padding:15px;border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,.06);cursor:pointer;transition:.22s}.tree-node:hover,.tree-node.active{border-color:rgba(111,231,255,.55);background:rgba(52,183,255,.14);transform:translateY(-1px)}
+    .path-result{margin-top:12px;padding:16px;border-radius:18px;border:1px solid rgba(111,231,255,.28);background:rgba(111,231,255,.08);display:none}
+    .image-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.mini-img{padding:14px;border-radius:20px;background:rgba(255,255,255,.06);border:1px solid var(--line);cursor:pointer;transition:.22s}.mini-img:hover{transform:translateY(-3px);border-color:rgba(111,231,255,.42)}
+    .sim-step{display:none}.sim-step.active{display:block}.stepper{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.stepper button{border:1px solid var(--line);background:rgba(255,255,255,.06);color:var(--muted);border-radius:999px;padding:9px 12px;cursor:pointer}.stepper button.active{background:rgba(69,224,168,.16);color:#fff;border-color:rgba(69,224,168,.45)}
+    .mdt-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.role-card{padding:14px;border-radius:18px;background:rgba(255,255,255,.06);border:1px solid var(--line);cursor:pointer;min-height:120px}.role-card:hover,.role-card.active{background:rgba(167,139,250,.16);border-color:rgba(167,139,250,.45)}
+    .drag-list{display:grid;gap:10px}.rank-item{padding:13px;border-radius:15px;background:rgba(255,255,255,.07);border:1px solid var(--line);cursor:pointer}.rank-item.selected{border-color:rgba(69,224,168,.7);background:rgba(69,224,168,.14)}
+    .surgery-console{display:grid;grid-template-columns:330px 1fr;gap:18px;align-items:start}.surgery-menu{display:grid;gap:10px}.surgery-btn{border:1px solid var(--line);background:rgba(255,255,255,.06);color:#d8e9fb;text-align:left;padding:14px 15px;border-radius:17px;cursor:pointer;transition:.22s}.surgery-btn:hover,.surgery-btn.active{background:rgba(52,183,255,.14);border-color:rgba(111,231,255,.45);transform:translateY(-1px)}.surgery-btn small{display:block;color:var(--muted);margin-top:4px;line-height:1.45}.surgery-screen{min-height:420px;border-radius:24px;border:1px solid rgba(111,231,255,.22);background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.035));padding:22px}.surgery-screen h4{font-size:22px;margin-bottom:8px}.surgery-tags{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.surgery-tag{font-size:12px;padding:6px 9px;border-radius:999px;background:rgba(111,231,255,.1);border:1px solid rgba(111,231,255,.24);color:#dff9ff}.risk-box{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}.risk-card{padding:13px;border-radius:16px;background:rgba(0,0,0,.16);border:1px solid var(--line)}.risk-card b{color:#fff}.micro-quiz{margin-top:15px;padding:15px;border-radius:18px;background:rgba(255,211,110,.08);border:1px solid rgba(255,211,110,.25)}.micro-quiz button{margin:6px 6px 0 0;border:1px solid var(--line);background:rgba(255,255,255,.07);color:#fff;border-radius:999px;padding:8px 10px;cursor:pointer}.micro-quiz button:hover{background:rgba(255,211,110,.16)}.mini-flow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.mini-flow span{padding:8px 10px;border-radius:13px;background:rgba(255,255,255,.06);border:1px solid var(--line);font-size:13px;color:#d5e6f8}.sim-liver-wrap{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:center}
+    .frontier-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.frontier-card{padding:18px;border-radius:22px;background:rgba(255,255,255,.06);border:1px solid var(--line);cursor:pointer;min-height:170px;transition:.22s}.frontier-card:hover,.frontier-card.active{transform:translateY(-4px);background:rgba(111,231,255,.1);border-color:rgba(111,231,255,.42)}.frontier-card b{font-size:17px;color:#fff}.frontier-card p{font-size:13px;margin:8px 0 0}.frontier-detail{margin-top:18px;padding:20px;border-radius:24px;background:linear-gradient(180deg,rgba(111,231,255,.1),rgba(255,255,255,.04));border:1px solid rgba(111,231,255,.24)}.frontier-detail h4{font-size:22px}.evidence-ladder{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}.evidence-ladder div{padding:13px;border-radius:16px;background:rgba(0,0,0,.16);border:1px solid var(--line)}.frontier-quiz{display:grid;gap:10px;margin-top:12px}.frontier-quiz button{padding:13px 14px;border-radius:16px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:#eaf5ff;cursor:pointer;text-align:left}.frontier-quiz button:hover{background:rgba(69,224,168,.12);border-color:rgba(69,224,168,.42)}
+    @media(max-width:1000px){.app{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.hero{grid-template-columns:1fr}.span-4,.span-5,.span-6,.span-7,.span-8{grid-column:span 12}.case-box{grid-template-columns:1fr}.hero h2{font-size:34px}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo">肝</div>
+      <div>
+        <h1>原发性肝癌<br/>外科学智能教学平台</h1>
+        <p>Primary Liver Cancer Surgery Tutor</p>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="active" onclick="showSection('home',this)">🏛 课程首页</button>
+      <button onclick="showSection('learn',this)">🧠 系统学习</button>
+      <button onclick="showSection('case',this)">🩺 交互病例</button>
+      <button onclick="showSection('interactive',this)">🧬 深度交互</button>
+      <button onclick="showSection('surgerySim',this)">🔬 手术模拟</button>
+      <button onclick="showSection('frontier',this)">🚀 前沿进展</button>
+      <button onclick="showSection('imageLab',this)">🖼 图像课堂</button>
+      <button onclick="showSection('quiz',this)">📝 随堂评测</button>
+      <button onclick="showSection('analytics',this)">📊 学情分析</button>
+      <button onclick="showSection('teacher',this)">👨‍🏫 教师看板</button>
+    </div>
+    <div class="side-card">
+      <h4 style="margin:0 0 6px">学习完成度</h4>
+      <p style="margin:0;color:var(--muted);font-size:13px">由模块浏览、病例选择和测试结果综合生成</p>
+      <div class="progress-ring">
+        <svg width="110" height="110">
+          <circle cx="55" cy="55" r="44" stroke="rgba(255,255,255,.12)" stroke-width="10" fill="none"/>
+          <circle id="ring" cx="55" cy="55" r="44" stroke="url(#grad)" stroke-width="10" fill="none" stroke-linecap="round" stroke-dasharray="276" stroke-dashoffset="276"/>
+          <defs><linearGradient id="grad"><stop offset="0" stop-color="#6fe7ff"/><stop offset="1" stop-color="#34b7ff"/></linearGradient></defs>
+        </svg>
+        <div class="num"><span id="progressNum">0%</span></div>
+      </div>
+      <p class="small-note">建议路径：解剖基础 → 诊断分期 → 治疗决策 → 病例推演 → 评测反馈。</p>
+    </div>
+  </aside>
+
+  <main>
+    <section id="home" class="section active">
+      <div class="hero">
+        <div>
+          <div class="badge">✨ AI + 外科学 + 肝癌诊疗决策训练</div>
+          <h2>从“看懂肝脏”到“做出治疗决策”的沉浸式学习</h2>
+          <p>本平台围绕原发性肝癌的解剖基础、危险因素、临床诊断、分期评估、治疗策略与围手术期思维进行教学设计，结合交互病例、知识评测与学情分析，帮助医学生和规培医师建立外科临床决策框架。</p>
+          <div class="hero-actions">
+            <button class="btn" onclick="go('learn')">开始系统学习</button>
+            <button class="btn secondary" onclick="go('case')">进入病例推演</button>
+          </div>
+        </div>
+        <div class="visual">
+          <div class="glow"></div>
+          <svg class="svg-card" viewBox="0 0 560 420" xmlns="http://www.w3.org/2000/svg">
+            <rect x="45" y="35" width="470" height="340" rx="34" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.18)"/>
+            <path d="M260 96 C178 85 111 137 105 215 C99 299 173 344 251 316 C302 297 349 320 396 284 C449 244 440 156 379 121 C341 99 304 102 260 96Z" fill="#a94438"/>
+            <path d="M280 102 C327 88 398 106 435 156 C477 213 447 291 384 307 C337 319 310 290 282 259 C261 236 250 189 259 151 C263 131 270 115 280 102Z" fill="#7c2c28" opacity=".92"/>
+            <path d="M170 177 C213 144 255 150 279 186 C306 226 288 281 244 295 C195 312 142 281 135 232 C132 208 145 190 170 177Z" fill="#d8a02f" opacity=".9"/>
+            <circle cx="223" cy="232" r="44" fill="#f1c85a" opacity=".9"/>
+            <circle cx="223" cy="232" r="22" fill="#b9473e" opacity=".86"/>
+            <path d="M116 247 C180 220 246 216 318 235 C365 248 411 241 452 216" stroke="#56d3ff" stroke-width="8" fill="none" stroke-linecap="round" opacity=".78"/>
+            <path d="M185 108 C210 155 220 197 217 268" stroke="#61e2a7" stroke-width="7" fill="none" stroke-linecap="round" opacity=".7"/>
+            <line x1="223" y1="232" x2="88" y2="120" class="label-line"/>
+            <text x="58" y="103" class="svg-text">肝内占位</text>
+            <text x="58" y="121" class="svg-muted">HCC lesion</text>
+            <line x1="390" y1="236" x2="485" y2="118" class="label-line"/>
+            <text x="438" y="96" class="svg-text">门静脉/肝静脉评估</text>
+            <text x="438" y="114" class="svg-muted">vascular invasion</text>
+            <line x1="270" y1="320" x2="405" y2="365" class="label-line"/>
+            <text x="410" y="368" class="svg-text">肝储备与切除安全</text>
+            <text x="410" y="386" class="svg-muted">future liver remnant</text>
+          </svg>
+        </div>
+      </div>
+      <div class="grid" style="margin-top:22px">
+        <div class="card span-4"><h4>学习目标</h4><p>掌握原发性肝癌的解剖定位、诊断线索、分期思维和外科治疗原则，能围绕患者肝功能、肿瘤负荷和全身状态制定初步方案。</p></div>
+        <div class="card span-4"><h4>核心能力</h4><p>训练“能诊断、会评估、懂手术、知综合治疗”的外科临床思维，强化病例分析和治疗路径选择能力。</p></div>
+        <div class="card span-4"><h4>教学特色</h4><p>模块化学习、交互式推演、即时测评、弱项识别、个性化学习建议，适用于课堂教学、翻转课堂与规培训练。</p></div>
+      </div>
+    </section>
+
+    <section id="learn" class="section">
+      <div class="card span-12">
+        <h3>系统学习模块</h3>
+        <p>点击不同模块，完成原发性肝癌从基础到决策的递进式学习。</p>
+        <div class="tabs">
+          <button class="tab active" onclick="showModule('anatomy',this)">解剖基础</button>
+          <button class="tab" onclick="showModule('diagnosis',this)">诊断与分期</button>
+          <button class="tab" onclick="showModule('treatment',this)">治疗策略</button>
+          <button class="tab" onclick="showModule('surgery',this)">外科决策</button>
+        </div>
+        <div id="anatomy" class="module-panel active">
+          <div class="grid">
+            <div class="span-6">
+              <h4>一、肝脏外科解剖：为什么肝癌治疗必须先理解“肝段”</h4>
+              <p>肝脏外科治疗以 Couinaud 肝段为基础。肝内门静脉、肝动脉和胆管系统伴行，而肝静脉系统构成肝段间平面。肝癌切除不只是“切掉肿瘤”，更要在保证肿瘤根治性的同时保留足够功能性肝组织。</p>
+              <span class="pill">肝段定位</span><span class="pill">门静脉供血</span><span class="pill">肝静脉回流</span><span class="pill">胆道关系</span><span class="pill">未来肝剩余体积</span>
+              <div class="timeline" style="margin-top:18px">
+                <div class="step"><b>定位</b><p>明确肿瘤位于左肝、右肝、尾状叶或具体肝段。</p></div>
+                <div class="step"><b>关系</b><p>判断与门静脉、肝静脉、胆管、下腔静脉的关系。</p></div>
+                <div class="step"><b>安全</b><p>结合肝功能和肝硬化程度，评估可切除性与残肝安全。</p></div>
+              </div>
+            </div>
+            <div class="span-6">
+              <svg class="svg-card" viewBox="0 0 560 410" xmlns="http://www.w3.org/2000/svg">
+                <rect x="35" y="25" width="490" height="350" rx="34" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.16)"/>
+                <path d="M270 80 C170 65 94 130 91 220 C87 315 180 354 260 320 C314 297 352 338 420 286 C482 238 467 143 390 101 C344 77 315 91 270 80Z" fill="#9f3d34"/>
+                <path d="M278 83 C336 70 411 102 446 162 C487 233 440 313 374 313 C326 313 302 278 277 239 C256 205 258 132 278 83Z" fill="#762d2b"/>
+                <path d="M102 221 C168 200 230 199 292 218 C346 234 399 229 455 197" stroke="#6fe7ff" stroke-width="7" fill="none" opacity=".82"/>
+                <path d="M201 93 C225 148 236 223 222 315" stroke="#45e0a8" stroke-width="7" fill="none" opacity=".75"/>
+                <line x1="278" y1="86" x2="278" y2="327" stroke="rgba(255,255,255,.34)" stroke-width="2"/>
+                <line x1="111" y1="225" x2="452" y2="200" stroke="rgba(255,255,255,.22)" stroke-width="2"/>
+                <text x="142" y="153" class="svg-text">Ⅱ/Ⅲ</text><text x="215" y="135" class="svg-text">Ⅳ</text><text x="322" y="140" class="svg-text">Ⅴ/Ⅷ</text><text x="355" y="255" class="svg-text">Ⅵ/Ⅶ</text><text x="230" y="292" class="svg-text">Ⅰ</text>
+                <circle cx="355" cy="190" r="28" fill="#ffd36e"/><circle cx="355" cy="190" r="12" fill="#c74639"/>
+                <text x="48" y="392" class="svg-muted">示意图：肝段、血管走行及肿瘤位置关系，供教学使用</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div id="diagnosis" class="module-panel">
+          <div class="grid">
+            <div class="span-7">
+              <h4>二、诊断路径：从高危人群到影像学典型强化模式</h4>
+              <table>
+                <tr><th>诊断环节</th><th>教学重点</th><th>学生应形成的思维</th></tr>
+                <tr><td>高危背景</td><td>乙肝/丙肝、肝硬化、长期酒精摄入、代谢相关脂肪性肝病等</td><td>肝癌诊断不能脱离肝病背景</td></tr>
+                <tr><td>血清标志物</td><td>AFP 可作为重要线索，但不能单独决定诊断</td><td>理解“辅助证据”与“确诊依据”的差别</td></tr>
+                <tr><td>影像学</td><td>动脉期强化、门静脉期/延迟期洗脱、包膜征、血管侵犯</td><td>用动态增强特征判断肿瘤性质</td></tr>
+                <tr><td>分期评估</td><td>肿瘤大小、数目、血管侵犯、肝外转移、肝功能和体能状态</td><td>诊断后立即进入治疗决策评估</td></tr>
+              </table>
+            </div>
+            <div class="span-5">
+              <h4>课堂提示卡</h4>
+              <p><b class="cyan">诊断不是单点判断，而是证据链整合：</b> 高危人群 + 影像特征 + 肿瘤标志物 + 肝功能状态 + 分期系统。</p>
+              <p><b class="hot">易错点：</b> AFP 阴性不能排除肝癌；影像提示肝癌后，也必须评价肝储备功能和治疗适应证。</p>
+              <p><b class="green">教学提问：</b> “同样是 5 cm 肝癌，为什么有的人能手术，有的人不能手术？”</p>
+            </div>
+          </div>
+        </div>
+        <div id="treatment" class="module-panel">
+          <div class="grid">
+            <div class="span-6">
+              <h4>三、治疗策略：根治、控制与转化治疗</h4>
+              <p>原发性肝癌治疗强调多学科综合决策。早期患者可考虑肝切除、肝移植或局部消融；中期患者常考虑 TACE 等局部区域治疗；晚期患者可采用系统治疗，包括免疫治疗、抗血管生成治疗、靶向治疗等。部分不可切除患者可通过转化治疗争取二期切除机会。</p>
+              <div class="timeline">
+                <div class="step"><b>根治性治疗</b><p>肝切除、肝移植、局部消融，目标是长期生存和潜在治愈。</p></div>
+                <div class="step"><b>局部区域治疗</b><p>TACE、HAIC、放疗等，适用于部分中期或局部进展期患者。</p></div>
+                <div class="step"><b>系统治疗</b><p>免疫联合抗血管生成、靶向治疗等，用于晚期或转化治疗场景。</p></div>
+                <div class="step"><b>转化治疗</b><p>通过降期、缩瘤、控制血管侵犯，为手术或消融创造条件。</p></div>
+              </div>
+            </div>
+            <div class="span-6">
+              <svg class="svg-card" viewBox="0 0 560 410" xmlns="http://www.w3.org/2000/svg">
+                <rect x="34" y="30" width="492" height="350" rx="32" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.16)"/>
+                <circle cx="145" cy="125" r="58" fill="rgba(69,224,168,.2)" stroke="#45e0a8" stroke-width="3"/>
+                <text x="112" y="119" class="svg-text">早期</text><text x="91" y="141" class="svg-muted">切除/移植/消融</text>
+                <circle cx="280" cy="205" r="70" fill="rgba(255,211,110,.18)" stroke="#ffd36e" stroke-width="3"/>
+                <text x="247" y="199" class="svg-text">中期</text><text x="244" y="221" class="svg-muted">TACE/联合</text>
+                <circle cx="420" cy="290" r="62" fill="rgba(255,110,127,.18)" stroke="#ff6e7f" stroke-width="3"/>
+                <text x="387" y="284" class="svg-text">晚期</text><text x="378" y="306" class="svg-muted">系统治疗</text>
+                <path d="M190 150 C225 160 240 174 255 190" stroke="#6fe7ff" stroke-width="4" fill="none" marker-end="url(#arrow)"/>
+                <path d="M333 238 C360 248 382 263 399 281" stroke="#6fe7ff" stroke-width="4" fill="none" marker-end="url(#arrow)"/>
+                <path d="M400 226 C347 188 286 156 210 123" stroke="#a78bfa" stroke-width="3" fill="none" stroke-dasharray="7 8" marker-end="url(#arrow2)"/>
+                <text x="294" y="126" class="svg-text">转化治疗</text><text x="294" y="146" class="svg-muted">争取二期根治</text>
+                <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#6fe7ff"/></marker><marker id="arrow2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#a78bfa"/></marker></defs>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div id="surgery" class="module-panel">
+          <div class="grid">
+            <div class="span-12">
+              <h4>四、外科治疗决策：能不能切？该怎么切？切完怎么管？</h4>
+              <table>
+                <tr><th>关键问题</th><th>判断内容</th><th>教学价值</th></tr>
+                <tr><td>肿瘤能否根治性切除？</td><td>单发/多发、大小、位置、血管侵犯、肝外转移</td><td>建立“肿瘤学可切除性”思维</td></tr>
+                <tr><td>患者能否耐受切除？</td><td>Child-Pugh、ICG、门静脉高压、血小板、残肝体积</td><td>建立“功能性可切除性”思维</td></tr>
+                <tr><td>选择解剖性还是非解剖性切除？</td><td>肝段供血、肿瘤边界、微血管侵犯风险、残肝保护</td><td>理解精准肝切除和肿瘤根治的平衡</td></tr>
+                <tr><td>术后如何随访和辅助治疗？</td><td>复发风险、AFP、影像复查、抗病毒、辅助治疗策略</td><td>形成全程管理观念</td></tr>
+              </table>
+              <p class="small-note">课堂可引导学生用一句话总结：原发性肝癌外科决策 = 肿瘤可切除 + 肝功能可耐受 + 残肝足够 + 全程管理可落实。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="case" class="section">
+      <div class="card">
+        <h3>交互病例推演：从诊断到治疗方案选择</h3>
+        <p>请根据病例信息逐步作出判断。系统会记录选择并生成学习分析。</p>
+        <div class="case-box">
+          <div>
+            <h4>病例资料</h4>
+            <p>男性，58 岁，乙肝病史 20 年，近 1 个月体检发现肝右叶占位。AFP 680 ng/mL。增强影像提示肝右叶 4.8 cm 肿块，动脉期明显强化，门静脉期洗脱。未见明确肝外转移。Child-Pugh A 级，ECOG 0 分。</p>
+            <p><b class="cyan">讨论任务：</b> 初步诊断、下一步评估重点、治疗策略。</p>
+          </div>
+          <div>
+            <h4>问题 1：最符合的初步判断是？</h4>
+            <button class="choice" onclick="answerCase(this,true,'caseF1')">A. 高危背景下，结合典型动态增强表现，首先考虑原发性肝癌</button>
+            <button class="choice" onclick="answerCase(this,false,'caseF1')">B. AFP 升高即可单独确诊原发性肝癌</button>
+            <button class="choice" onclick="answerCase(this,false,'caseF1')">C. 只要没有黄疸，就可以排除肝癌</button>
+            <div id="caseF1" class="feedback"></div>
+          </div>
+        </div>
+        <div class="case-box" style="margin-top:18px">
+          <div>
+            <h4>问题 2：治疗决策前最应补充评价的是？</h4>
+            <button class="choice" onclick="answerCase(this,true,'caseF2')">A. 肿瘤位置与血管关系、肝功能储备、残肝体积和门静脉高压情况</button>
+            <button class="choice" onclick="answerCase(this,false,'caseF2')">B. 只要肿瘤小于 5 cm，就不需要评估肝储备功能</button>
+            <button class="choice" onclick="answerCase(this,false,'caseF2')">C. 直接选择系统治疗，不需要讨论手术可能</button>
+            <div id="caseF2" class="feedback"></div>
+          </div>
+          <div>
+            <h4>问题 3：若评估提示可切除且残肝充足，较合理的治疗倾向是？</h4>
+            <button class="choice" onclick="answerCase(this,true,'caseF3')">A. 以根治性肝切除为重要选择，并结合术后复发风险进行全程管理</button>
+            <button class="choice" onclick="answerCase(this,false,'caseF3')">B. 仅观察随访，待出现症状后再处理</button>
+            <button class="choice" onclick="answerCase(this,false,'caseF3')">C. 所有肝癌患者均首选肝移植</button>
+            <div id="caseF3" class="feedback"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="interactive" class="section">
+      <div class="grid">
+        <div class="card span-12">
+          <h3>深度交互训练：肝段定位、治疗路径与手术模拟</h3>
+          <p>本模块增加多级交互：先识别肝段，再判断影像诊断，再进入治疗决策树，最后模拟手术方案设计。</p>
+        </div>
+        <div class="card span-7">
+          <h3>一、肝段定位互动图</h3>
+          <p>点击示意图中的不同肝段，查看其外科意义、常见风险和课堂提示。</p>
+          <div class="interactive-map">
+            <svg class="svg-card" viewBox="0 0 560 420" xmlns="http://www.w3.org/2000/svg">
+              <rect x="30" y="26" width="500" height="360" rx="34" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.16)"/>
+              <path class="liver-seg" onclick="segInfo('Ⅱ/Ⅲ','左外叶，适合讲解左肝外叶切除、肿瘤边界与保留肝体积。临床问题：左外叶肿瘤通常手术暴露相对清晰，但仍需关注肝硬化背景下残肝功能。')" d="M105 220 C100 160 140 108 205 92 C213 150 220 205 212 318 C154 330 109 286 105 220Z" fill="#b54a3d"/>
+              <path class="liver-seg" onclick="segInfo('Ⅳ段','左内叶，靠近肝门结构，适合讲解解剖性切除与胆管血管保护。临床问题：中央区肿瘤更需要三维空间想象。')" d="M205 92 C238 86 260 91 282 104 C268 178 267 250 280 323 C256 326 233 324 212 318 C220 205 213 150 205 92Z" fill="#d05a45"/>
+              <path class="liver-seg" onclick="segInfo('Ⅴ/Ⅷ段','右前叶，常涉及右肝前叶切除或右半肝切除方案比较。临床问题：需重点判断与中肝静脉、门静脉右前支关系。')" d="M282 104 C342 76 425 104 462 162 C415 186 356 210 279 205 C270 163 273 130 282 104Z" fill="#8f3733"/>
+              <path class="liver-seg" onclick="segInfo('Ⅵ/Ⅶ段','右后叶，适合讲解后上段暴露困难、腹腔镜入路和肝静脉出血风险。临床问题：Ⅶ段靠近膈肌和肝静脉，手术视野与出血控制是重点。')" d="M279 205 C356 210 415 186 462 162 C497 238 453 315 382 326 C337 333 305 326 280 323 C267 250 270 230 279 205Z" fill="#6f2b2d"/>
+              <circle class="liver-seg" onclick="segInfo('肿瘤灶','示意肿瘤位于右前叶附近。教学时可继续追问：是否靠近中肝静脉？是否存在门静脉侵犯？残肝体积是否足够？')" cx="358" cy="198" r="32" fill="#ffd36e"/>
+              <circle cx="358" cy="198" r="13" fill="#c43f36"/>
+              <path d="M116 244 C180 218 252 215 320 232 C370 244 420 235 462 206" stroke="#6fe7ff" stroke-width="8" fill="none" opacity=".78"/>
+              <path d="M208 92 C233 151 239 228 224 318" stroke="#45e0a8" stroke-width="7" fill="none" opacity=".75"/>
+              <text x="140" y="180" class="svg-text">Ⅱ/Ⅲ</text><text x="230" y="160" class="svg-text">Ⅳ</text><text x="344" y="152" class="svg-text">Ⅴ/Ⅷ</text><text x="355" y="285" class="svg-text">Ⅵ/Ⅶ</text>
+            </svg>
+            <div class="info-panel" id="segPanel"><h4>请点击肝段</h4><p>系统会显示该区域的外科教学重点。建议教师让学生先描述肿瘤位置，再提出可能手术方案。</p></div>
+          </div>
+        </div>
+        <div class="card span-5">
+          <h3>二、影像诊断三步判断</h3>
+          <p>点击下方选项，模拟读片思路。</p>
+          <div class="decision-tree">
+            <div class="tree-node" onclick="imageJudge(this,'动脉期明显强化：提示肿瘤动脉供血丰富，是 HCC 典型影像链条的第一步。')">① 动脉期：是否明显强化？</div>
+            <div class="tree-node" onclick="imageJudge(this,'门静脉期或延迟期洗脱：与动脉期强化共同构成典型动态增强模式。')">② 门静脉期/延迟期：是否洗脱？</div>
+            <div class="tree-node" onclick="imageJudge(this,'进一步观察包膜征、卫星灶、门静脉癌栓和肝外转移，用于分期和治疗选择。')">③ 是否有包膜、血管侵犯或转移？</div>
+          </div>
+          <div id="imageJudgeBox" class="path-result"></div>
+        </div>
+        <div class="card span-6">
+          <h3>三、治疗路径决策树</h3>
+          <p>依次点击节点，查看不同条件下的教学解释。</p>
+          <div class="decision-tree">
+            <div class="tree-node" onclick="pathInfo(this,'早期、肝功能好、肿瘤局限：优先讨论根治性治疗，包括肝切除、消融或肝移植。')">早期 + 肝功能良好</div>
+            <div class="tree-node" onclick="pathInfo(this,'肿瘤可切除但肝硬化明显：重点讨论残肝体积、门静脉高压、ICG、血小板和术后肝衰风险。')">可切除 + 肝储备边缘</div>
+            <div class="tree-node" onclick="pathInfo(this,'局部进展但无广泛转移：可讨论 TACE、HAIC、放疗、免疫联合抗血管生成等转化治疗。')">局部进展 + 争取转化</div>
+            <div class="tree-node" onclick="pathInfo(this,'晚期或肝外转移：强调系统治疗、症状控制、疗效评估和重新分期，不能简单认为“无治疗价值”。')">晚期 + 系统治疗</div>
+          </div>
+          <div id="pathBox" class="path-result"></div>
+        </div>
+        <div class="card span-6">
+          <h3>四、模拟手术设计流程</h3>
+          <div class="stepper">
+            <button class="active" onclick="simStep(0,this)">1 定位</button><button onclick="simStep(1,this)">2 评估</button><button onclick="simStep(2,this)">3 方案</button><button onclick="simStep(3,this)">4 风险</button><button onclick="simStep(4,this)">5 随访</button>
+          </div>
+          <div class="sim-step active"><h4>定位肿瘤</h4><p>明确肿瘤肝段、大小、数目、与肝门及主要血管关系。教学提问：这是一处“边缘肿瘤”还是“中央型肿瘤”？</p></div>
+          <div class="sim-step"><h4>评估患者</h4><p>综合 Child-Pugh、ICG、MELD、血小板、门静脉高压、肝硬化程度与未来残肝体积。</p></div>
+          <div class="sim-step"><h4>选择方案</h4><p>比较解剖性切除、非解剖性切除、消融、移植、TACE、系统治疗或转化治疗。</p></div>
+          <div class="sim-step"><h4>预判风险</h4><p>关注出血、胆漏、术后肝衰竭、感染、肿瘤复发和基础肝病进展。</p></div>
+          <div class="sim-step"><h4>术后随访</h4><p>建立 AFP + 影像 + 抗病毒 + 复发风险分层 + 辅助治疗评估的全程管理路径。</p></div>
+        </div>
+        <div class="card span-12">
+          <h3>五、MDT 角色互动</h3>
+          <p>点击不同角色，查看其在原发性肝癌诊疗中的核心关注点。</p>
+          <div class="mdt-grid">
+            <div class="role-card" onclick="roleInfo(this,'肝胆外科：判断能否根治性切除、切除范围、残肝安全和围手术期风险。')"><b>肝胆外科</b><p>可切除性</p></div>
+            <div class="role-card" onclick="roleInfo(this,'影像科：提供肿瘤位置、强化模式、血管侵犯、卫星灶和肝外转移证据。')"><b>影像科</b><p>诊断分期</p></div>
+            <div class="role-card" onclick="roleInfo(this,'介入科：评估 TACE、HAIC、门静脉栓塞和局部区域治疗机会。')"><b>介入科</b><p>局部控制</p></div>
+            <div class="role-card" onclick="roleInfo(this,'肿瘤内科：制定免疫、靶向、抗血管生成和转化治疗策略。')"><b>肿瘤内科</b><p>系统治疗</p></div>
+            <div class="role-card" onclick="roleInfo(this,'麻醉/ICU：评估心肺功能、凝血、肝肾功能和术后重症监护需求。')"><b>麻醉ICU</b><p>安全保障</p></div>
+          </div>
+          <div id="roleBox" class="path-result"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="surgerySim" class="section">
+      <div class="grid">
+        <div class="card span-12">
+          <h3>手术模拟中心：原发性肝癌肝切除全过程训练</h3>
+          <p>本模块模拟“右肝前叶/右半肝切除”教学场景。所有按钮均可点击，并呈现不同知识信息，帮助学生理解从术前规划到术后管理的完整外科路径。</p>
+        </div>
+        <div class="card span-12">
+          <div class="surgery-console">
+            <div class="surgery-menu">
+              <button class="surgery-btn active" onclick="surgeryInfo(0,this)">① 术前病例建模<small>肿瘤定位、肝功能、残肝体积</small></button>
+              <button class="surgery-btn" onclick="surgeryInfo(1,this)">② 手术适应证判断<small>根治机会与功能性可切除性</small></button>
+              <button class="surgery-btn" onclick="surgeryInfo(2,this)">③ 切口与入路选择<small>开放、腹腔镜、机器人路径</small></button>
+              <button class="surgery-btn" onclick="surgeryInfo(3,this)">④ 探查与超声定位<small>腹腔探查、肝内隐匿病灶</small></button>
+              <button class="surgery-btn" onclick="surgeryInfo(4,this)">⑤ 肝门解剖与血流控制<small>Pringle、选择性入肝血流阻断</small></button>
+              <button class="surgery-btn" onclick="surgeryInfo(5,this)">⑥ 肝脏游离与肝静脉控制<small>韧带处理、短肝静脉风险</small></button>
+              <button class="surgery-btn" onclick="surgeryInfo(6,this)">⑦ 肝实质离断<small>CUSA、能量器械、离断平面</small></button>
+              <button class="surgery-btn" onclick="surgeryInfo(7,this)">⑧ 断面止血与胆漏检查<small>出血点、胆汁漏、断面处理</small></button>
+              <button class="surgery-btn" onclick="surgeryInfo(8,this)">⑨ 标本取出与切缘评估<small>肿瘤边界、卫星灶、病理送检</small></button>
+              <button class="surgery-btn" onclick="surgeryInfo(9,this)">⑩ 术后监测与并发症处理<small>肝衰、出血、胆漏、感染</small></button>
+              <button class="surgery-btn" onclick="surgeryInfo(10,this)">⑪ 复发风险与辅助治疗<small>MVI、AFP、影像随访、抗病毒</small></button>
+              <button class="surgery-btn" onclick="surgeryInfo(11,this)">⑫ 教学复盘与评分<small>临床思维、操作逻辑、风险意识</small></button>
+            </div>
+            <div class="surgery-screen" id="surgeryScreen"></div>
+          </div>
+        </div>
+        <div class="card span-6">
+          <h3>模拟操作图：切除范围与残肝保护</h3>
+          <div class="sim-liver-wrap">
+            <svg class="svg-card" viewBox="0 0 520 360" xmlns="http://www.w3.org/2000/svg">
+              <rect x="24" y="24" width="472" height="308" rx="30" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.15)"/>
+              <path d="M86 190 C80 115 145 69 226 75 C270 50 350 66 404 115 C462 169 441 259 365 284 C310 302 279 270 237 260 C173 300 91 263 86 190Z" fill="#8f3733"/>
+              <path id="resectArea" d="M260 78 C325 52 405 94 434 158 C465 225 420 284 360 286 C321 287 292 266 260 238 C246 190 244 127 260 78Z" fill="#ff6e7f" opacity=".62"/>
+              <path d="M104 211 C172 183 245 185 314 205 C362 219 402 210 434 188" stroke="#6fe7ff" stroke-width="8" fill="none" opacity=".76"/>
+              <path d="M220 78 C245 137 255 207 239 262" stroke="#45e0a8" stroke-width="7" fill="none" opacity=".75"/>
+              <line x1="260" y1="78" x2="260" y2="238" stroke="#fff" stroke-width="2" stroke-dasharray="6 6"/>
+              <circle cx="342" cy="167" r="28" fill="#ffd36e"/><circle cx="342" cy="167" r="12" fill="#c43f36"/>
+              <text x="55" y="320" class="svg-muted">粉色区域：拟切除范围；绿色/蓝色：胆管与门静脉示意；虚线：计划离断平面</text>
+            </svg>
+            <div>
+              <h4>教学引导</h4>
+              <p>让学生判断：该肿瘤是否适合局部切除？是否需要解剖性切除？如果残肝体积不足，是否考虑 PVE 或转化治疗？</p>
+              <div class="mini-flow"><span>定位</span><span>分期</span><span>肝储备</span><span>切除线</span><span>断面风险</span><span>术后随访</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="card span-6">
+          <h3>术中风险识别互动</h3>
+          <p>点击风险点，查看对应处理原则。</p>
+          <div class="decision-tree">
+            <div class="tree-node" onclick="riskInfo(this,'肝门出血：首先压迫控制视野，必要时行 Pringle 阻断，明确出血来源后精细缝扎或夹闭，避免盲目电凝扩大损伤。')">肝门出血</div>
+            <div class="tree-node" onclick="riskInfo(this,'肝静脉撕裂：需保持低中心静脉压策略，快速压迫，显露破口，使用无损伤缝线修补，警惕空气栓塞。')">肝静脉撕裂</div>
+            <div class="tree-node" onclick="riskInfo(this,'胆漏风险：离断面发现胆汁样液体时应明确胆管分支来源，予以结扎或缝合，术后结合引流液胆红素判断。')">胆漏风险</div>
+            <div class="tree-node" onclick="riskInfo(this,'术后肝衰风险：关注胆红素、INR、乳酸、腹水和意识状态；核心是术前准确评估和术后早期识别。')">术后肝衰</div>
+          </div>
+          <div id="riskBox" class="path-result"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="frontier" class="section">
+      <div class="grid">
+        <div class="card span-12">
+          <h3>前沿进展：从传统肝切除到精准综合治疗</h3>
+          <p>本模块用于把最新肝癌诊疗进展转化为课堂可讲、可互动、可讨论的教学内容。点击不同前沿方向，系统会显示核心概念、临床价值、教学切入点和互动问题。</p>
+        </div>
+        <div class="card span-12">
+          <div class="frontier-grid">
+            <div class="frontier-card active" onclick="frontierInfo(0,this)"><b>免疫联合治疗</b><p>PD-1/PD-L1、CTLA-4、抗血管生成联合，改变晚期和转化治疗格局。</p></div>
+            <div class="frontier-card" onclick="frontierInfo(1,this)"><b>转化治疗与二期切除</b><p>不可切除肝癌通过缩瘤、降期、控制血管侵犯，争取根治机会。</p></div>
+            <div class="frontier-card" onclick="frontierInfo(2,this)"><b>精准肝切除</b><p>从“切得掉”转向“切得准、留得够、恢复好”。</p></div>
+            <div class="frontier-card" onclick="frontierInfo(3,this)"><b>三维重建与导航</b><p>虚拟肝切除、残肝体积计算、肝段血管胆管可视化。</p></div>
+            <div class="frontier-card" onclick="frontierInfo(4,this)"><b>液体活检与MRD</b><p>ctDNA、循环肿瘤标志物用于复发风险评估和术后监测。</p></div>
+            <div class="frontier-card" onclick="frontierInfo(5,this)"><b>AI辅助诊疗</b><p>影像组学、病理AI、预后模型和个体化决策支持。</p></div>
+            <div class="frontier-card" onclick="frontierInfo(6,this)"><b>围手术期系统治疗</b><p>新辅助、辅助治疗和围手术期免疫策略正在快速发展。</p></div>
+            <div class="frontier-card" onclick="frontierInfo(7,this)"><b>微创与机器人肝切除</b><p>腹腔镜、机器人、荧光导航推动复杂肝切除精细化。</p></div>
+            <div class="frontier-card" onclick="frontierInfo(8,this)"><b>全程管理与真实世界数据</b><p>从一次治疗走向长期随访、复发干预和多学科闭环管理。</p></div>
+          </div>
+          <div id="frontierBox" class="frontier-detail"></div>
+        </div>
+        <div class="card span-6">
+          <h3>前沿治疗路径示意图</h3>
+          <svg class="svg-card" viewBox="0 0 560 420" xmlns="http://www.w3.org/2000/svg">
+            <rect x="34" y="26" width="492" height="360" rx="34" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.16)"/>
+            <circle cx="115" cy="105" r="50" fill="rgba(69,224,168,.20)" stroke="#45e0a8" stroke-width="3"/><text x="84" y="101" class="svg-text">早期</text><text x="76" y="122" class="svg-muted">根治治疗</text>
+            <circle cx="280" cy="105" r="50" fill="rgba(255,211,110,.20)" stroke="#ffd36e" stroke-width="3"/><text x="249" y="101" class="svg-text">中期</text><text x="234" y="122" class="svg-muted">局部联合</text>
+            <circle cx="445" cy="105" r="50" fill="rgba(255,110,127,.18)" stroke="#ff6e7f" stroke-width="3"/><text x="414" y="101" class="svg-text">晚期</text><text x="400" y="122" class="svg-muted">系统治疗</text>
+            <rect x="72" y="220" width="130" height="74" rx="20" fill="rgba(111,231,255,.12)" stroke="#6fe7ff"/><text x="94" y="252" class="svg-text">转化治疗</text><text x="88" y="274" class="svg-muted">降期/缩瘤</text>
+            <rect x="215" y="220" width="130" height="74" rx="20" fill="rgba(167,139,250,.12)" stroke="#a78bfa"/><text x="237" y="252" class="svg-text">二期切除</text><text x="233" y="274" class="svg-muted">重新评估</text>
+            <rect x="358" y="220" width="130" height="74" rx="20" fill="rgba(69,224,168,.12)" stroke="#45e0a8"/><text x="383" y="252" class="svg-text">MRD监测</text><text x="378" y="274" class="svg-muted">复发预警</text>
+            <path d="M165 105 L230 105" stroke="#6fe7ff" stroke-width="4" marker-end="url(#fa)"/><path d="M330 105 L395 105" stroke="#6fe7ff" stroke-width="4" marker-end="url(#fa)"/><path d="M430 154 C395 210 330 232 345 256" stroke="#ffd36e" stroke-width="4" fill="none" marker-end="url(#fb)"/><path d="M202 256 L215 256" stroke="#6fe7ff" stroke-width="4" marker-end="url(#fa)"/><path d="M345 256 L358 256" stroke="#6fe7ff" stroke-width="4" marker-end="url(#fa)"/>
+            <defs><marker id="fa" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#6fe7ff"/></marker><marker id="fb" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#ffd36e"/></marker></defs>
+          </svg>
+        </div>
+        <div class="card span-6">
+          <h3>前沿课堂讨论题</h3>
+          <div class="frontier-quiz">
+            <button onclick="tip('讨论方向：不是所有缩小都等于可切除，要重新评价血管侵犯、残肝体积、肝功能和肿瘤生物学。')">1. 肿瘤经免疫联合治疗缩小后，是否一定可以手术？</button>
+            <button onclick="tip('讨论方向：ctDNA/MRD可能帮助识别高复发风险，但仍需与影像、AFP、病理风险因素综合判断。')">2. ctDNA 阴性是否代表术后不会复发？</button>
+            <button onclick="tip('讨论方向：三维重建能提升空间理解，但不能替代外科医生对肝功能、出血风险和肿瘤学原则的判断。')">3. 三维重建能不能替代外科医生经验？</button>
+            <button onclick="tip('讨论方向：围手术期免疫可能改善微转移控制，但也要关注肝炎、肝功能损伤和手术时机。')">4. 新辅助免疫治疗会给手术带来哪些机会和风险？</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="imageLab" class="section">
+      <div class="card">
+        <h3>图像课堂：用图片讲清原发性肝癌</h3>
+        <p>点击图片卡片，展开对应教学讲解。所有图片均为内嵌 SVG 教学示意图，可直接用于课堂展示。</p>
+        <div class="image-gallery">
+          <div class="mini-img" onclick="galleryInfo('肝脏解剖图','重点用于讲解肝段、门静脉、肝静脉和胆道系统。教师可引导学生先定位肿瘤，再判断手术路径。')">
+            <svg viewBox="0 0 220 150"><path d="M47 80 C45 43 83 22 120 32 C151 16 190 38 195 77 C200 118 160 137 124 123 C94 139 50 120 47 80Z" fill="#a94438"/><path d="M55 92 C92 78 128 80 172 65" stroke="#6fe7ff" stroke-width="5" fill="none"/><circle cx="147" cy="74" r="14" fill="#ffd36e"/></svg><b>肝段与血管</b>
+          </div>
+          <div class="mini-img" onclick="galleryInfo('增强影像模式图','用于讲解“动脉期强化—门静脉期洗脱”的诊断证据链，帮助学生避免只看 AFP。')">
+            <svg viewBox="0 0 220 150"><rect x="20" y="25" width="50" height="90" rx="14" fill="rgba(111,231,255,.18)" stroke="#6fe7ff"/><rect x="85" y="25" width="50" height="90" rx="14" fill="rgba(255,211,110,.22)" stroke="#ffd36e"/><rect x="150" y="25" width="50" height="90" rx="14" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.4)"/><circle cx="45" cy="70" r="13" fill="#ffd36e"/><circle cx="110" cy="70" r="13" fill="#c43f36"/><circle cx="175" cy="70" r="13" fill="#7c2c28"/><text x="27" y="135" fill="#fff" font-size="10">动脉</text><text x="93" y="135" fill="#fff" font-size="10">门脉</text><text x="158" y="135" fill="#fff" font-size="10">延迟</text></svg><b>影像强化模式</b>
+          </div>
+          <div class="mini-img" onclick="galleryInfo('治疗路径图','用于串联肝切除、消融、移植、TACE、系统治疗和转化治疗。适合课堂总结。')">
+            <svg viewBox="0 0 220 150"><circle cx="55" cy="55" r="30" fill="rgba(69,224,168,.22)" stroke="#45e0a8"/><circle cx="110" cy="95" r="34" fill="rgba(255,211,110,.2)" stroke="#ffd36e"/><circle cx="170" cy="55" r="30" fill="rgba(255,110,127,.2)" stroke="#ff6e7f"/><path d="M82 65 C94 72 99 79 105 88" stroke="#6fe7ff" stroke-width="3"/><path d="M137 87 C150 79 157 69 164 61" stroke="#6fe7ff" stroke-width="3"/></svg><b>治疗路径</b>
+          </div>
+          <div class="mini-img" onclick="galleryInfo('门静脉癌栓示意','用于讲解血管侵犯对分期和治疗选择的影响，引出手术、放疗、介入和系统治疗联合策略。')">
+            <svg viewBox="0 0 220 150"><path d="M50 76 C78 52 130 46 168 68 C190 82 184 113 151 122 C112 132 70 120 50 96Z" fill="#8f3733"/><path d="M42 95 C85 72 132 72 180 92" stroke="#6fe7ff" stroke-width="8" fill="none"/><path d="M116 78 C130 82 143 86 154 91" stroke="#ff6e7f" stroke-width="7" stroke-linecap="round"/><circle cx="107" cy="75" r="18" fill="#ffd36e"/></svg><b>血管侵犯</b>
+          </div>
+          <div class="mini-img" onclick="galleryInfo('未来残肝体积示意','用于讲解为什么“肿瘤能切掉”不等于“患者能安全耐受切除”，强调术后肝衰竭风险。')">
+            <svg viewBox="0 0 220 150"><path d="M48 80 C46 42 84 21 120 33 C150 15 190 39 194 78 C199 118 158 137 124 122 C94 139 51 119 48 80Z" fill="#7c2c28"/><path d="M122 34 C152 18 190 40 194 78 C199 118 158 137 124 122 C136 90 134 60 122 34Z" fill="#45e0a8" opacity=".82"/><line x1="122" y1="34" x2="124" y2="122" stroke="#fff" stroke-dasharray="4 4"/></svg><b>残肝评估</b>
+          </div>
+          <div class="mini-img" onclick="galleryInfo('术后随访图','用于讲解复发监测、AFP、影像复查、抗病毒治疗和辅助治疗评估，体现全程管理。')">
+            <svg viewBox="0 0 220 150"><polyline points="25,110 65,80 105,94 145,52 190,68" fill="none" stroke="#6fe7ff" stroke-width="4"/><circle cx="65" cy="80" r="7" fill="#45e0a8"/><circle cx="105" cy="94" r="7" fill="#ffd36e"/><circle cx="145" cy="52" r="7" fill="#ff6e7f"/><rect x="25" y="25" width="165" height="100" rx="16" fill="none" stroke="rgba(255,255,255,.35)"/></svg><b>术后随访</b>
+          </div>
+        </div>
+        <div id="galleryBox" class="path-result" style="display:block;margin-top:18px"><b>图像说明</b><p>请选择上方任意图片卡片，查看其教学用途。</p></div>
+      </div>
+    </section>
+
+    <section id="quiz" class="section">
+      <div class="card">
+        <h3>随堂评测：原发性肝癌核心知识检测</h3>
+        <p>完成测评后，系统将自动生成得分、薄弱点和学习建议。</p>
+        <div id="quizBox"></div>
+        <button class="btn" onclick="submitQuiz()">提交测评</button>
+        <button class="btn secondary" onclick="resetQuiz()">重新作答</button>
+        <div id="quizResult" class="feedback" style="display:none"></div>
+      </div>
+    </section>
+
+    <section id="analytics" class="section">
+      <div class="grid">
+        <div class="card span-4"><h4>总体掌握度</h4><div class="stat"><strong id="mastery">0%</strong><small>综合评分</small></div><div class="meter"><span id="m1"></span></div></div>
+        <div class="card span-4"><h4>病例决策力</h4><div class="stat"><strong id="caseScore">0/3</strong><small>病例问题</small></div><div class="meter"><span id="m2"></span></div></div>
+        <div class="card span-4"><h4>测评正确率</h4><div class="stat"><strong id="quizScore">未完成</strong><small>知识测试</small></div><div class="meter"><span id="m3"></span></div></div>
+        <div class="card span-7">
+          <h3>学情诊断报告</h3>
+          <div class="analysis-list" id="analysisList">
+            <div class="analysis-item">尚未生成完整学情。请先完成系统学习、病例推演和随堂评测。</div>
+          </div>
+        </div>
+        <div class="card span-5">
+          <h3>个性化学习建议</h3>
+          <p id="advice">建议先完成“系统学习”中的解剖、诊断、治疗和外科决策四个模块，再进入病例推演。</p>
+          <button class="btn" onclick="go('learn')">返回学习模块</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="teacher" class="section">
+      <div class="card">
+        <h3>教师看板：课堂使用建议</h3>
+        <div class="grid">
+          <div class="span-6">
+            <h4>课前</h4>
+            <p>教师可要求学生先完成“解剖基础”和“诊断与分期”模块，系统根据浏览记录和预习题结果识别学生对肝段、影像特征和分期概念的薄弱点。</p>
+            <h4>课中</h4>
+            <p>围绕交互病例组织小组讨论：先判断诊断依据，再讨论可切除性，最后比较肝切除、消融、TACE、系统治疗与转化治疗的适应证差异。</p>
+          </div>
+          <div class="span-6">
+            <h4>课后</h4>
+            <p>通过评测结果和学情分析反馈，教师可以针对错误率较高的知识点进行二次讲解，学生则可根据个性化建议进行精准复习。</p>
+            <h4>可拓展活动</h4>
+            <p>引入真实 MDT 场景，让学生分别扮演肝胆外科、影像科、介入科、肿瘤内科和麻醉科角色，完成治疗方案论证。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="floating-tip" id="tip"><b>学习提示</b><p id="tipText"></p></div>
+
+<script>
+const state={visited:new Set(['home']), modules:new Set(), caseCorrect:0, caseAnswered:new Set(), quizDone:false, quizCorrect:0};
+const quiz=[
+  {q:'1. 原发性肝癌外科治疗决策中，除肿瘤大小和位置外，最不能忽视的是：', opts:['AFP 是否升高','肝功能储备与未来残肝体积','患者是否有腹痛','肿瘤是否位于右肝'], ans:1, point:'外科决策必须同时考虑肿瘤学可切除性和功能性可切除性。'},
+  {q:'2. 肝癌动态增强影像中较典型的表现是：', opts:['动脉期低强化，延迟期持续强化','动脉期强化，门静脉期或延迟期洗脱','所有时期均无强化','只有平扫可以诊断'], ans:1, point:'典型 HCC 常呈现动脉期高强化及后期洗脱特征。'},
+  {q:'3. 对于可切除肝癌患者，术前评估门静脉高压和肝储备的主要意义是：', opts:['判断是否需要抗生素','评估切除安全性和术后肝衰竭风险','决定是否需要止痛','判断 AFP 是否准确'], ans:1, point:'肝硬化背景下，残肝功能不足是术后风险的重要来源。'},
+  {q:'4. 下列哪项最能体现“转化治疗”的理念？', opts:['所有患者直接观察','通过综合治疗使不可切除肿瘤降期，争取根治机会','只治疗症状，不处理肿瘤','手术后不再随访'], ans:1, point:'转化治疗的核心是为根治性治疗创造机会。'},
+  {q:'5. 原发性肝癌教学中，最适合作为病例讨论主线的是：', opts:['单纯背诵药名','从高危背景、诊断证据、分期评估到治疗方案选择','只看 AFP 数值','只讨论影像图片是否美观'], ans:1, point:'病例教学应训练完整临床决策链，而不是孤立知识点。'}
+];
+function showSection(id,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  state.visited.add(id); updateProgress(); updateAnalytics();
+}
+function go(id){const btn=[...document.querySelectorAll('.nav button')].find(b=>b.getAttribute('onclick')?.includes(`'${id}'`));showSection(id,btn)}
+function showModule(id,btn){
+  document.querySelectorAll('.module-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active'); state.modules.add(id); updateProgress(); tip('已记录模块学习：'+btn.textContent+'。建议完成四个模块后进入病例推演。');
+}
+function segInfo(title,text){state.visited.add('interactive');document.getElementById('segPanel').innerHTML=`<h4>${title}</h4><p>${text}</p><p class="small-note">进阶提问：如果该部位肿瘤合并肝硬化或门静脉高压，治疗方案会怎样改变？</p>`;updateProgress();}
+function imageJudge(el,text){document.querySelectorAll('#interactive .tree-node').forEach(n=>n.classList.remove('active'));el.classList.add('active');const box=document.getElementById('imageJudgeBox');box.style.display='block';box.innerHTML='<b>读片提示</b><p>'+text+'</p>';state.visited.add('interactive');updateProgress();}
+function pathInfo(el,text){document.querySelectorAll('#pathBox').forEach(()=>{});el.parentElement.querySelectorAll('.tree-node').forEach(n=>n.classList.remove('active'));el.classList.add('active');const box=document.getElementById('pathBox');box.style.display='block';box.innerHTML='<b>路径解释</b><p>'+text+'</p><p class="small-note">课堂追问：该路径下最关键的禁忌证或风险点是什么？</p>';state.visited.add('interactive');updateProgress();}
+function simStep(i,btn){document.querySelectorAll('.sim-step').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.stepper button').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.sim-step')[i].classList.add('active');btn.classList.add('active');state.visited.add('interactive');updateProgress();}
+function roleInfo(el,text){document.querySelectorAll('.role-card').forEach(r=>r.classList.remove('active'));el.classList.add('active');const box=document.getElementById('roleBox');box.style.display='block';box.innerHTML='<b>MDT 发言要点</b><p>'+text+'</p>';state.visited.add('interactive');updateProgress();}
+function galleryInfo(title,text){const box=document.getElementById('galleryBox');box.innerHTML=`<b>${title}</b><p>${text}</p><p class="small-note">建议用法：先让学生描述图片信息，再追问其对诊断、分期或治疗决策的影响。</p>`;state.visited.add('imageLab');updateProgress();}
+const surgeryData=[
+  {title:'① 术前病例建模', tags:['肝段定位','三维重建','肝储备','残肝体积'], core:'术前建模的核心是把“肿瘤在哪里、靠近什么结构、患者能否耐受切除”转化为可讨论的外科方案。学生需要整合增强 CT/MRI、肝段定位、门静脉和肝静脉走行、肝硬化程度、ICG 或其他肝储备指标。', risk:'忽略肝硬化和门静脉高压，可能导致术后肝衰；忽略血管关系，可能低估手术难度。', ask:'如果肿瘤 5 cm，但靠近中肝静脉，治疗策略会如何变化？', quiz:'术前规划最关键的不是单纯测量肿瘤大小，而是同时判断肿瘤学可切除性和功能性可切除性。'},
+  {title:'② 手术适应证判断', tags:['根治性','可切除性','全身状态','禁忌证'], core:'手术适应证应同时满足：肿瘤有根治性切除可能、无不可控肝外转移、肝功能可耐受、残肝体积足够、患者全身状态允许。对于肝硬化患者，“能切掉”不等于“能安全切”。', risk:'把影像上的可切除误认为临床可切除，是学生最常见错误。', ask:'Child-Pugh A 是否一定代表可以大范围肝切除？为什么？', quiz:'Child-Pugh A 只是基础条件，还要结合 ICG、门静脉高压、血小板、残肝体积和手术范围。'},
+  {title:'③ 切口与入路选择', tags:['开放手术','腹腔镜','机器人','暴露'], core:'入路选择取决于肿瘤位置、肝硬化程度、既往手术史、出血风险和团队经验。开放手术暴露充分，适合复杂中央型或大范围切除；腹腔镜/机器人适合部分位置合适、技术条件成熟的病例。', risk:'为了追求微创而忽视肿瘤位置和出血控制，会增加术中转换和并发症风险。', ask:'右后上段肿瘤为什么比左外叶肿瘤更考验腹腔镜技术？', quiz:'微创入路的前提是安全和根治，而不是切口小本身。'},
+  {title:'④ 探查与超声定位', tags:['腹腔探查','术中超声','隐匿病灶','切缘'], core:'开腹或腹腔镜进入后，应先探查腹腔有无腹膜、膈肌、肝表面转移。术中超声可帮助发现小病灶、确认肿瘤与血管关系、规划切除线，是精准肝切除的重要工具。', risk:'不做系统探查可能遗漏转移；不使用术中超声可能低估肿瘤与血管距离。', ask:'术中发现新的小结节时，是立即切除还是先判断性质？', quiz:'术中超声不仅是“找肿瘤”，更是“定切线、避血管、保残肝”。'},
+  {title:'⑤ 肝门解剖与血流控制', tags:['Pringle','Glisson蒂','选择性阻断','缺血再灌注'], core:'肝门血流控制可减少离断出血。Pringle 阻断操作相对简便，但会造成全肝入肝血流阻断；选择性 Glisson 蒂阻断更符合解剖性切除理念，可显示缺血线，帮助确定切除范围。', risk:'长时间阻断可加重缺血再灌注损伤；肝硬化患者耐受性更差。', ask:'为什么选择性阻断有助于解剖性肝切除？', quiz:'血流控制既是止血手段，也是显示肝段边界的教学切入点。'},
+  {title:'⑥ 肝脏游离与肝静脉控制', tags:['冠状韧带','三角韧带','短肝静脉','下腔静脉'], core:'右肝或后上段切除常需充分游离肝脏，处理冠状韧带、三角韧带及短肝静脉。靠近下腔静脉和肝静脉根部时，必须保持清晰视野和可控出血策略。', risk:'短肝静脉撕裂可导致快速大量出血；过度牵拉肝脏可能损伤肝静脉。', ask:'为什么右肝后方游离时要特别警惕短肝静脉？', quiz:'肝脏游离不是简单“翻肝”，而是为安全显露和血管控制创造条件。'},
+  {title:'⑦ 肝实质离断', tags:['CUSA','离断平面','中央静脉压','解剖性切除'], core:'肝实质离断是手术核心步骤。常用 CUSA、超声刀、双极电凝、夹闭和缝扎等方式处理肝实质、血管和胆管分支。离断平面应兼顾肿瘤切缘、血管走行和残肝保护。', risk:'盲目快速离断可能导致肝静脉、门静脉分支或胆管损伤；中央静脉压过高会增加出血。', ask:'解剖性切除与非解剖性切除在肿瘤学和残肝保护上各有什么利弊？', quiz:'离断质量体现外科医生对肝内管道系统的空间理解。'},
+  {title:'⑧ 断面止血与胆漏检查', tags:['断面管理','胆漏','止血','引流'], core:'肝实质离断后应系统检查断面出血和胆漏。可通过压迫、缝扎、钛夹、能量器械、局部止血材料等处理出血点；可通过观察胆汁样渗出或必要时胆道试验判断胆漏。', risk:'只关注出血而忽略胆漏，可能导致术后腹腔感染、胆汁性腹膜炎或长期引流。', ask:'为什么术后引流液胆红素升高提示胆漏？', quiz:'断面处理的目标是“无活动出血、无明显胆漏、残肝血供和回流良好”。'},
+  {title:'⑨ 标本取出与切缘评估', tags:['无瘤原则','切缘','MVI','病理'], core:'标本取出应遵循无瘤原则，避免肿瘤破裂和种植。病理评估包括肿瘤类型、分化程度、切缘、微血管侵犯 MVI、卫星灶和背景肝病。', risk:'忽视 MVI 和卫星灶会低估复发风险；切缘不足需结合肿瘤位置和肝功能综合评价。', ask:'为什么 MVI 阳性患者术后复发风险更高？', quiz:'病理不是手术结束后的附属信息，而是术后随访和辅助治疗决策的依据。'},
+  {title:'⑩ 术后监测与并发症处理', tags:['肝衰竭','出血','胆漏','感染'], core:'术后重点监测生命体征、引流液、血红蛋白、胆红素、转氨酶、INR、乳酸、白蛋白和肾功能。肝衰、出血、胆漏和感染是肝切除后必须早期识别的并发症。', risk:'术后早期胆红素和 INR 持续升高，应警惕术后肝衰竭；引流液鲜红需警惕活动性出血。', ask:'术后第 3 天胆红素升高、INR 延长、腹水增多，应优先考虑什么？', quiz:'术后管理不是“等恢复”，而是连续动态风险识别。'},
+  {title:'⑪ 复发风险与辅助治疗', tags:['AFP','影像随访','抗病毒','辅助治疗'], core:'肝癌术后复发风险与肿瘤大小、数目、MVI、分化程度、卫星灶、切缘、AFP、基础肝病控制有关。乙肝相关肝癌应重视长期抗病毒治疗。高危患者需讨论辅助治疗和严密随访。', risk:'只重视手术、不控制乙肝或肝硬化，会增加复发和肝功能失代偿风险。', ask:'为什么原发性肝癌术后随访要同时看 AFP 和影像？', quiz:'术后全程管理决定患者长期获益，不能把治疗理解为“一切了之”。'},
+  {title:'⑫ 教学复盘与评分', tags:['临床思维','操作逻辑','风险意识','全程管理'], core:'复盘可按四个维度评分：诊断证据是否完整、治疗方案是否符合分期和肝功能、手术步骤是否体现解剖逻辑、术后管理是否体现复发和并发症意识。', risk:'学生若只会背治疗方式，而不能说明“为什么这样选”，说明尚未形成外科决策能力。', ask:'请用 1 分钟汇报该患者的诊断依据、治疗方案、风险点和术后随访计划。', quiz:'高质量外科教学的目标，是让学生完成从知识记忆到临床决策的迁移。'}
+];
+function surgeryInfo(i,btn){document.querySelectorAll('.surgery-btn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');const d=surgeryData[i];const screen=document.getElementById('surgeryScreen');screen.innerHTML=`<h4>${d.title}</h4><div class="surgery-tags">${d.tags.map(t=>`<span class="surgery-tag">${t}</span>`).join('')}</div><p>${d.core}</p><div class="risk-box"><div class="risk-card"><b>风险提示</b><p>${d.risk}</p></div><div class="risk-card"><b>教学提问</b><p>${d.ask}</p></div><div class="risk-card"><b>知识要点</b><p>${d.quiz}</p></div></div><div class="micro-quiz"><b>课堂微任务</b><p>请学生用“因为……所以……”句式解释本步骤与治疗结局的关系。</p><button onclick="tip('已记录：学生完成 ${d.title} 的微任务讨论。')">标记完成</button><button onclick="tip('建议追问：如果患者合并明显门静脉高压，本步骤的策略如何调整？')">生成追问</button></div>`;state.visited.add('surgerySim');updateProgress();}
+function riskInfo(el,text){el.parentElement.querySelectorAll('.tree-node').forEach(n=>n.classList.remove('active'));el.classList.add('active');const box=document.getElementById('riskBox');box.style.display='block';box.innerHTML='<b>处理原则</b><p>'+text+'</p><p class="small-note">教学建议：让学生先说“识别依据”，再说“处理顺序”，最后说“如何预防”。</p>';state.visited.add('surgerySim');updateProgress();}
+const frontierData=[
+  {title:'免疫联合治疗：肝癌系统治疗进入联合时代', tags:['PD-1/PD-L1','CTLA-4','抗血管生成','免疫微环境'], core:'晚期肝癌治疗已从单一靶向药时代进入免疫联合时代。免疫检查点抑制剂与抗血管生成药物或 CTLA-4 抑制剂联合，可通过恢复抗肿瘤免疫、改善血管异常和调节肿瘤微环境，提高疾病控制机会。', teach:'课堂可从“为什么肝癌免疫治疗需要联合”切入，引导学生理解肿瘤免疫逃逸、异常血管和免疫抑制微环境之间的关系。', caution:'要强调并非所有患者都适合免疫治疗，需关注肝功能、出血风险、自身免疫病、病毒性肝炎活动和免疫相关不良反应。'},
+  {title:'转化治疗与二期切除：从不可切除到重新评估', tags:['降期','缩瘤','血管侵犯','二期切除'], core:'转化治疗并不是简单“先用药再手术”，而是通过系统治疗、局部区域治疗或联合治疗，使部分初始不可切除患者达到重新评估条件，争取根治性切除、消融或移植机会。', teach:'适合做病例讨论：治疗前后影像对比、AFP变化、肝功能变化、血管侵犯是否缓解，以及何时进入MDT重新评估。', caution:'肿瘤缩小不等于肿瘤生物学变好；手术时机、残肝安全和潜在微转移仍需谨慎判断。'},
+  {title:'精准肝切除：肿瘤根治与残肝保护的平衡', tags:['解剖性切除','切缘','残肝体积','肿瘤生物学'], core:'精准肝切除强调在保证肿瘤学安全的前提下最大限度保留功能性肝组织。它不仅关注切缘距离，也关注肿瘤生物学、肝硬化背景、门静脉高压和术后肝衰风险。', teach:'可让学生比较“扩大切除更根治”与“保留残肝更安全”的矛盾，训练平衡思维。', caution:'精准不是切得越小越好，也不是切得越大越安全，而是个体化选择。'},
+  {title:'三维重建与导航：把肝内结构变成可视化地图', tags:['三维重建','虚拟切除','荧光导航','残肝计算'], core:'三维重建可显示肿瘤、门静脉、肝静脉、胆管和残肝体积关系，帮助术前规划切除范围。荧光导航和术中超声可进一步辅助识别肿瘤边界和肝段范围。', teach:'适合课堂展示“同一肿瘤在二维CT和三维模型中的差异”，帮助学生建立空间解剖。', caution:'三维重建是决策辅助，不替代对肝功能、出血风险和肿瘤学原则的判断。'},
+  {title:'液体活检与MRD：复发监测从影像走向分子层面', tags:['ctDNA','MRD','复发预警','个体化随访'], core:'ctDNA等液体活检技术可用于探索术后微小残留病灶和早期复发风险。它有望补充AFP和影像随访，帮助识别高危患者并优化随访频率和辅助治疗选择。', teach:'可提出问题：“如果影像阴性但ctDNA阳性，应该如何解释？”训练学生理解分子证据与临床证据的层级关系。', caution:'目前MRD检测仍面临灵敏度、标准化、成本和临床阈值问题，不能孤立决定治疗。'},
+  {title:'AI辅助诊疗：从影像识别到预后预测', tags:['影像组学','深度学习','病理AI','决策支持'], core:'AI可用于肝癌影像识别、肿瘤分割、MVI预测、复发风险评估和治疗反应预测。教学中可把AI作为“辅助医生发现信息和整合风险”的工具。', teach:'让学生思考：AI能帮助识别哪些人眼难以量化的信息？又有哪些临床背景必须由医生补充？', caution:'AI模型可能存在数据偏倚、外部验证不足和可解释性不足，不能直接替代临床决策。'},
+  {title:'围手术期系统治疗：手术边界正在前移', tags:['新辅助','辅助治疗','免疫治疗','复发风险'], core:'围手术期治疗关注术前缩瘤、控制微转移、降低复发风险和改善长期生存。对于高复发风险患者，辅助治疗和临床试验正在成为重要讨论方向。', teach:'适合引导学生理解“手术不是孤立事件”，而是全程治疗中的关键节点。', caution:'围手术期治疗需关注肝炎激活、免疫性肝损伤、伤口愈合、手术时机和疗效评估。'},
+  {title:'微创与机器人肝切除：从小切口走向精细操作', tags:['腹腔镜','机器人','后上段肿瘤','荧光显像'], core:'腹腔镜和机器人肝切除正从简单左外叶切除向复杂肝段、后上段和解剖性切除拓展。机器人系统在稳定视野、精细缝合和狭小空间操作方面具有潜力。', teach:'可让学生比较开放、腹腔镜和机器人在暴露、触觉、出血控制和学习曲线上的差异。', caution:'微创的价值应建立在安全、根治和团队经验基础上，不能把“微创”简单等同于“更好”。'},
+  {title:'全程管理与真实世界数据：从单次治疗到长期获益', tags:['真实世界研究','随访闭环','复发干预','慢病管理'], core:'肝癌常发生于慢性肝病背景，治疗后仍需长期管理基础肝病、复发风险和生活质量。真实世界数据有助于评价不同治疗策略在复杂人群中的实际效果。', teach:'适合课程结尾总结：肝癌治疗不是“一刀切除”，而是诊断、治疗、随访、复发干预和基础肝病控制的闭环。', caution:'真实世界数据容易受到选择偏倚影响，需要与随机研究和指南推荐相互印证。'}
+];
+function frontierInfo(i,el){document.querySelectorAll('.frontier-card').forEach(c=>c.classList.remove('active'));if(el)el.classList.add('active');const d=frontierData[i];document.getElementById('frontierBox').innerHTML=`<h4>${d.title}</h4><div class="surgery-tags">${d.tags.map(t=>`<span class="surgery-tag">${t}</span>`).join('')}</div><p>${d.core}</p><div class="evidence-ladder"><div><b>核心概念</b><p>${d.tags[0]} 是本方向的关键词。</p></div><div><b>临床价值</b><p>${d.teach}</p></div><div><b>教学切入</b><p>用病例或图像追问“为什么、何时、适合谁”。</p></div><div><b>注意边界</b><p>${d.caution}</p></div></div>`;state.visited.add('frontier');updateProgress();}
+function answerCase(el,correct,box){
+  const siblings=el.parentElement.querySelectorAll('.choice');siblings.forEach(s=>{s.disabled=true;if(s!==el)s.style.opacity=.55});
+  el.classList.add(correct?'correct':'wrong');
+  const f=document.getElementById(box); f.style.display='block';
+  f.innerHTML=correct?'✅ 回答正确：你抓住了肝癌诊疗决策的核心证据链。':'❌ 回答不够准确：请回到诊断与外科决策模块，注意不能用单一指标替代综合评估。';
+  if(!state.caseAnswered.has(box)){state.caseAnswered.add(box); if(correct)state.caseCorrect++;}
+  updateProgress(); updateAnalytics();
+}
+surgeryInfo(0,null);
+frontierInfo(0,null);
+function renderQuiz(){
+  const box=document.getElementById('quizBox');
+  box.innerHTML=quiz.map((item,i)=>`<div class="card" style="margin:14px 0;background:rgba(255,255,255,.05)"><h4>${item.q}</h4>${item.opts.map((o,j)=>`<label class="choice"><input type="radio" name="q${i}" value="${j}"/> ${String.fromCharCode(65+j)}. ${o}</label>`).join('')}</div>`).join('');
+}
+function submitQuiz(){
+  let correct=0,details=[];
+  quiz.forEach((item,i)=>{const v=document.querySelector(`input[name=q${i}]:checked`); if(v&&Number(v.value)===item.ans){correct++;}else{details.push(`第 ${i+1} 题：${item.point}`)}});
+  state.quizDone=true; state.quizCorrect=correct;
+  const res=document.getElementById('quizResult');res.style.display='block';
+  res.innerHTML=`<b>测评得分：${correct}/${quiz.length}</b><br>${correct===quiz.length?'表现优秀，已具备较好的原发性肝癌外科决策基础。':'建议重点复习：<br>'+details.map(d=>'• '+d).join('<br>')}`;
+  updateProgress(); updateAnalytics();
+}
+function resetQuiz(){state.quizDone=false;state.quizCorrect=0;renderQuiz();document.getElementById('quizResult').style.display='none';updateProgress();updateAnalytics()}
+function calcProgress(){
+  let score=0; score+=Math.min(state.visited.size,10)*4; score+=state.modules.size*7; score+=state.caseAnswered.size*6; if(state.visited.has('interactive'))score+=8; if(state.visited.has('surgerySim'))score+=9; if(state.visited.has('frontier'))score+=8; if(state.visited.has('imageLab'))score+=7; if(state.quizDone)score+=17+(state.quizCorrect/quiz.length)*7; return Math.min(100,Math.round(score));
+}
+function updateProgress(){
+  const p=calcProgress(); document.getElementById('progressNum').textContent=p+'%'; document.getElementById('ring').style.strokeDashoffset=276-(276*p/100);
+}
+function updateAnalytics(){
+  const p=calcProgress(); document.getElementById('mastery').textContent=p+'%'; document.getElementById('m1').style.width=p+'%';
+  document.getElementById('caseScore').textContent=state.caseCorrect+'/3'; document.getElementById('m2').style.width=(state.caseCorrect/3*100)+'%';
+  document.getElementById('quizScore').textContent=state.quizDone?`${state.quizCorrect}/5`:'未完成'; document.getElementById('m3').style.width=state.quizDone?(state.quizCorrect/5*100)+'%':'0%';
+  const list=[];
+  if(state.modules.size<4) list.push('📌 系统学习模块尚未全部完成：建议补齐解剖、诊断、治疗和外科决策四个模块。');
+  if(!state.visited.has('interactive')) list.push('🧬 尚未完成深度交互：建议进入肝段定位、治疗路径决策树和手术模拟流程。');
+  if(!state.visited.has('imageLab')) list.push('🖼 图像课堂尚未浏览：建议结合图片理解肝段、影像强化、血管侵犯和残肝评估。');
+  if(!state.visited.has('surgerySim')) list.push('🔬 手术模拟尚未完成：建议进入术前规划、肝门阻断、肝实质离断和术后管理训练。');
+  if(!state.visited.has('frontier')) list.push('🚀 前沿进展尚未学习：建议补充免疫联合、转化治疗、三维重建、液体活检和AI辅助诊疗内容。');
+  if(state.caseAnswered.size>0 && state.caseCorrect<3) list.push('🩺 病例推演存在失分：需要加强“诊断证据链”和“可切除性评估”训练。');
+  if(state.quizDone && state.quizCorrect<4) list.push('📝 测评提示基础概念仍需巩固：重点复习影像诊断、肝功能储备和转化治疗。');
+  if(p>=80) list.push('🌟 综合表现优秀：可进一步开展 MDT 角色扮演和复杂病例讨论。');
+  if(list.length===0) list.push('当前数据不足，请继续完成学习任务以生成更准确的学情诊断。');
+  document.getElementById('analysisList').innerHTML=list.map(x=>`<div class="analysis-item">${x}</div>`).join('');
+  let advice='建议按“基础—诊断—治疗—决策—病例—测评”的顺序完成闭环学习。';
+  if(state.modules.size>=4 && state.caseAnswered.size<3) advice='你已完成主要知识模块，下一步建议进入交互病例，训练临床推理与治疗选择。';
+  if(state.caseAnswered.size>=3 && !state.quizDone) advice='病例推演已完成，建议立即进行随堂测评，检验知识迁移能力。';
+  if(state.quizDone && state.quizCorrect<4) advice='建议回到“诊断与分期”和“外科决策”模块，重点复习影像特征、肝储备评估与治疗适应证。';
+  if(p>=80) advice='学习闭环完成度较高，可进一步加入真实病例、三维重建影像或 MDT 讨论，提升高阶决策能力。';
+  document.getElementById('advice').textContent=advice;
+}
+let tipTimer;
+function tip(text){const t=document.getElementById('tip');document.getElementById('tipText').textContent=text;t.style.display='block';clearTimeout(tipTimer);tipTimer=setTimeout(()=>t.style.display='none',3600)}
+renderQuiz();updateProgress();updateAnalytics();
+</script>
+</body>
+</html>
