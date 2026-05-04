@@ -136,6 +136,77 @@
     .surgery-console{display:grid;grid-template-columns:330px 1fr;gap:18px;align-items:start}.surgery-menu{display:grid;gap:10px}.surgery-btn{border:1px solid var(--line);background:rgba(255,255,255,.06);color:#d8e9fb;text-align:left;padding:14px 15px;border-radius:17px;cursor:pointer;transition:.22s}.surgery-btn:hover,.surgery-btn.active{background:rgba(52,183,255,.14);border-color:rgba(111,231,255,.45);transform:translateY(-1px)}.surgery-btn small{display:block;color:var(--muted);margin-top:4px;line-height:1.45}.surgery-screen{min-height:420px;border-radius:24px;border:1px solid rgba(111,231,255,.22);background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.035));padding:22px}.surgery-screen h4{font-size:22px;margin-bottom:8px}.surgery-tags{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.surgery-tag{font-size:12px;padding:6px 9px;border-radius:999px;background:rgba(111,231,255,.1);border:1px solid rgba(111,231,255,.24);color:#dff9ff}.risk-box{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}.risk-card{padding:13px;border-radius:16px;background:rgba(0,0,0,.16);border:1px solid var(--line)}.risk-card b{color:#fff}.micro-quiz{margin-top:15px;padding:15px;border-radius:18px;background:rgba(255,211,110,.08);border:1px solid rgba(255,211,110,.25)}.micro-quiz button{margin:6px 6px 0 0;border:1px solid var(--line);background:rgba(255,255,255,.07);color:#fff;border-radius:999px;padding:8px 10px;cursor:pointer}.micro-quiz button:hover{background:rgba(255,211,110,.16)}.mini-flow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.mini-flow span{padding:8px 10px;border-radius:13px;background:rgba(255,255,255,.06);border:1px solid var(--line);font-size:13px;color:#d5e6f8}.sim-liver-wrap{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:center}
     .frontier-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.frontier-card{padding:18px;border-radius:22px;background:rgba(255,255,255,.06);border:1px solid var(--line);cursor:pointer;min-height:170px;transition:.22s}.frontier-card:hover,.frontier-card.active{transform:translateY(-4px);background:rgba(111,231,255,.1);border-color:rgba(111,231,255,.42)}.frontier-card b{font-size:17px;color:#fff}.frontier-card p{font-size:13px;margin:8px 0 0}.frontier-detail{margin-top:18px;padding:20px;border-radius:24px;background:linear-gradient(180deg,rgba(111,231,255,.1),rgba(255,255,255,.04));border:1px solid rgba(111,231,255,.24)}.frontier-detail h4{font-size:22px}.evidence-ladder{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}.evidence-ladder div{padding:13px;border-radius:16px;background:rgba(0,0,0,.16);border:1px solid var(--line)}.frontier-quiz{display:grid;gap:10px;margin-top:12px}.frontier-quiz button{padding:13px 14px;border-radius:16px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:#eaf5ff;cursor:pointer;text-align:left}.frontier-quiz button:hover{background:rgba(69,224,168,.12);border-color:rgba(69,224,168,.42)}
     @media(max-width:1000px){.app{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.hero{grid-template-columns:1fr}.span-4,.span-5,.span-6,.span-7,.span-8{grid-column:span 12}.case-box{grid-template-columns:1fr}.hero h2{font-size:34px}}
+
+    /* ===== AI 个性化学习路径 ===== */
+    .wiz-prog{display:flex;margin:0 0 30px;position:relative}.wiz-prog:before{content:"";position:absolute;top:20px;left:11%;right:11%;height:2px;background:var(--line);z-index:0}
+    .wiz-step{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;position:relative;z-index:1}
+    .wiz-dot{width:40px;height:40px;border-radius:50%;border:2px solid var(--line);background:var(--bg2);display:grid;place-items:center;font-size:16px;transition:.3s}
+    .wiz-dot.done{background:linear-gradient(135deg,var(--green),var(--cyan));border-color:transparent}
+    .wiz-dot.active{background:linear-gradient(135deg,var(--blue),var(--purple));border-color:transparent;box-shadow:0 0 18px rgba(52,183,255,.38)}
+    .wiz-lbl{font-size:11px;color:var(--muted);text-align:center;line-height:1.3}
+    .wiz-panel{display:none}.wiz-panel.active{display:block;animation:fade .35s ease}
+    .pg{display:grid;gap:12px;margin:12px 0 20px}
+    .pg.c2{grid-template-columns:repeat(2,1fr)}.pg.c3{grid-template-columns:repeat(3,1fr)}.pg.c4{grid-template-columns:repeat(4,1fr)}
+    .po{padding:16px 12px;border-radius:18px;border:2px solid var(--line);background:rgba(255,255,255,.04);cursor:pointer;transition:.22s;text-align:center}
+    .po:hover{border-color:rgba(111,231,255,.42);background:rgba(111,231,255,.07);transform:translateY(-2px)}
+    .po.sel{border-color:var(--cyan);background:rgba(111,231,255,.13);box-shadow:0 0 16px rgba(111,231,255,.16)}
+    .po .em{font-size:26px;display:block;margin-bottom:8px}.po b{display:block;font-size:14px;color:#fff;margin-bottom:4px}.po p{font-size:12px;color:var(--muted);margin:0;line-height:1.4}
+    .wiz-nav{display:flex;justify-content:flex-end;gap:10px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
+    .ai-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 13px;border-radius:999px;background:linear-gradient(135deg,rgba(52,183,255,.16),rgba(167,139,250,.16));border:1px solid rgba(111,231,255,.28);color:#c9f7ff;font-size:12px;font-weight:600;margin-bottom:14px}
+    .path-sum{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+    .psum{padding:14px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid var(--line);text-align:center}
+    .psum strong{display:block;font-size:20px;font-weight:800;color:var(--cyan);margin-bottom:3px}.psum small{font-size:11px;color:var(--muted)}
+    .path-vis{display:grid;gap:6px}
+    .pnode{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid var(--line);cursor:pointer;transition:.2s}
+    .pnode:hover{background:rgba(255,255,255,.08);border-color:rgba(111,231,255,.28)}.pnode.done{border-color:rgba(69,224,168,.32);background:rgba(69,224,168,.05)}
+    .nnum{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-size:14px;font-weight:800;flex-shrink:0}
+    .nh{background:linear-gradient(135deg,var(--cyan),var(--blue));color:#05111f}.nm{background:linear-gradient(135deg,var(--gold),#f59e0b);color:#05111f}.nl{background:rgba(255,255,255,.1);color:var(--muted)}
+    .nbody{flex:1}.ntitle{font-size:13px;font-weight:700;color:#fff;margin-bottom:3px}.nmeta{font-size:12px;color:var(--muted)}
+    .nbadge{font-size:10px;padding:3px 8px;border-radius:999px;font-weight:600;white-space:nowrap}
+    .nb-must{background:rgba(255,110,127,.18);color:#ffb3bc;border:1px solid rgba(255,110,127,.25)}
+    .nb-rec{background:rgba(255,211,110,.15);color:var(--gold);border:1px solid rgba(255,211,110,.22)}
+    .nb-opt{background:rgba(255,255,255,.07);color:var(--muted);border:1px solid var(--line)}
+    .ah{padding:14px 16px;border-radius:16px;background:linear-gradient(135deg,rgba(167,139,250,.1),rgba(52,183,255,.07));border:1px solid rgba(167,139,250,.22);margin-top:14px;display:flex;gap:12px;align-items:flex-start}
+    .ah-icon{font-size:20px;flex-shrink:0;margin-top:1px}.ah-title{font-size:13px;font-weight:700;color:#ddd8fb;margin-bottom:4px}.ah-text{font-size:12px;color:#b8b0d8;line-height:1.6}
+    .tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+    .tc{padding:16px;border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,.04);position:relative;overflow:hidden;transition:.2s}
+    .tc:hover{transform:translateY(-2px);border-color:rgba(111,231,255,.25)}
+    .tc:before{content:"";position:absolute;top:0;left:0;right:0;height:3px}
+    .tc.tb:before{background:linear-gradient(90deg,var(--green),var(--cyan))}.tc.tm:before{background:linear-gradient(90deg,var(--gold),#f59e0b)}.tc.ta:before{background:linear-gradient(90deg,var(--purple),var(--blue))}
+    .tlvl{font-size:10px;font-weight:700;letter-spacing:.8px;margin-bottom:8px}.tlvl.tb{color:var(--green)}.tlvl.tm{color:var(--gold)}.tlvl.ta{color:var(--purple)}
+    .dbar{display:flex;gap:3px;margin-bottom:10px}.dd{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.12)}.dd.dg{background:var(--green)}.dd.dy{background:var(--gold)}.dd.dp{background:var(--purple)}
+    .tc h4{font-size:13px;color:#fff;margin:0 0 7px;line-height:1.4}.tc .tdesc{font-size:12px;color:var(--muted);margin:0 0 12px;line-height:1.55}
+    .tbtn{display:inline-flex;font-size:11px;font-weight:600;padding:6px 12px;border-radius:999px;border:0;cursor:pointer;transition:.2s}
+    .tbtn.bb{background:rgba(69,224,168,.14);color:var(--green)}.tbtn.bb:hover{background:rgba(69,224,168,.26)}
+    .tbtn.bm{background:rgba(255,211,110,.13);color:var(--gold)}.tbtn.bm:hover{background:rgba(255,211,110,.24)}
+    .tbtn.ba{background:rgba(167,139,250,.13);color:var(--purple)}.tbtn.ba:hover{background:rgba(167,139,250,.24)}
+    .rlist{display:grid;gap:9px}
+    .ri{padding:12px 14px;border-radius:15px;background:rgba(255,255,255,.04);border:1px solid var(--line);display:flex;align-items:center;gap:12px;cursor:pointer;transition:.2s}
+    .ri:hover{border-color:rgba(111,231,255,.3);background:rgba(111,231,255,.05);transform:translateX(3px)}
+    .ricon{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-size:16px;flex-shrink:0}
+    .rv{background:rgba(255,110,127,.16)}.rd{background:rgba(111,231,255,.14)}.rc{background:rgba(255,211,110,.13)}.rq{background:rgba(69,224,168,.13)}.rs{background:rgba(167,139,250,.13)}
+    .rbody{flex:1}.rtitle{font-size:13px;font-weight:700;color:#fff}.rdesc{font-size:11px;color:var(--muted);margin:2px 0 5px}.rtags{display:flex;gap:4px;flex-wrap:wrap}
+    .rtag{font-size:10px;padding:2px 6px;border-radius:999px;background:rgba(255,255,255,.06);color:var(--muted)}
+    .mscore{font-size:12px;font-weight:800;color:var(--green);text-align:right;white-space:nowrap}
+    .fbstream{display:grid;gap:9px;max-height:420px;overflow-y:auto;padding-right:3px}
+    .fbstream::-webkit-scrollbar{width:3px}.fbstream::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14);border-radius:3px}
+    .fbi{padding:12px 14px;border-radius:14px;border-left:3px solid transparent;background:rgba(255,255,255,.04);animation:fade .4s ease}
+    .fbi.fi{border-left-color:var(--cyan)}.fbi.fw{border-left-color:var(--gold)}.fbi.fg{border-left-color:var(--green)}.fbi.fa{border-left-color:var(--purple)}
+    .fbh{display:flex;align-items:center;gap:7px;margin-bottom:5px}
+    .fbic{font-size:14px}.fbtitle{font-size:12px;font-weight:700;color:#fff}.fbtime{font-size:10px;color:var(--muted);margin-left:auto}
+    .fbbody{font-size:12px;color:#b8cce0;line-height:1.6}
+    .fbact{display:inline-flex;margin-top:7px;font-size:11px;font-weight:600;color:var(--cyan);cursor:pointer;padding:4px 9px;border-radius:999px;border:1px solid rgba(111,231,255,.2);background:rgba(111,231,255,.06)}
+    .fbact:hover{background:rgba(111,231,255,.15)}
+    .pp-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid var(--line);margin-bottom:16px}
+    .pptag{padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600}
+    .ppt-id{background:rgba(52,183,255,.13);color:var(--cyan);border:1px solid rgba(52,183,255,.22)}
+    .ppt-lv{background:rgba(255,211,110,.11);color:var(--gold);border:1px solid rgba(255,211,110,.2)}
+    .ppt-gl{background:rgba(69,224,168,.11);color:var(--green);border:1px solid rgba(69,224,168,.2)}
+    .ppt-tm{background:rgba(167,139,250,.11);color:var(--purple);border:1px solid rgba(167,139,250,.2)}
+    .snap-row{display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:3px 0}
+    .snap-row span{color:var(--muted)}.snap-row b{color:#fff}
+    .ai-side-card{padding:10px 12px;border-radius:13px;border-left:3px solid;background:rgba(255,255,255,.04);margin-bottom:8px}
+    .ai-side-card b{font-size:12px;color:#fff;display:block;margin-bottom:3px}.ai-side-card p{font-size:11px;color:var(--muted);margin:0;line-height:1.5}
   </style>
 </head>
 <body>
@@ -159,6 +230,7 @@
       <button onclick="showSection('quiz',this)">📝 随堂评测</button>
       <button onclick="showSection('analytics',this)">📊 学情分析</button>
       <button onclick="showSection('teacher',this)">👨‍🏫 教师看板</button>
+      <button onclick="showSection('aiPath',this)">🤖 AI学习路径</button>
     </div>
     <div class="side-card">
       <h4 style="margin:0 0 6px">学习完成度</h4>
@@ -614,6 +686,158 @@
         </div>
       </div>
     </section>
+    <!-- ===== AI 个性化学习路径 ===== -->
+    <section id="aiPath" class="section">
+      <div class="grid">
+        <div class="card span-12">
+          <div class="ai-chip">✨ 生成式AI · 个性化学习引擎</div>
+          <h3>AI个性化学习路径</h3>
+          <p>系统运用<b style="color:var(--cyan)">生成式人工智能</b>技术，根据你的学习者画像动态规划专属学习路径，推送<b style="color:var(--gold)">差异化任务</b>与<b style="color:var(--green)">精准学习资源</b>，并提供实时自适应反馈——真正实现<b style="color:var(--purple)">因材施教</b>。</p>
+        </div>
+
+        <!-- 主向导 -->
+        <div class="card span-8">
+          <!-- 进度条 -->
+          <div class="wiz-prog">
+            <div class="wiz-step"><div class="wiz-dot active" id="wd0">👤</div><div class="wiz-lbl">学习者<br/>画像</div></div>
+            <div class="wiz-step"><div class="wiz-dot" id="wd1">🤖</div><div class="wiz-lbl">AI路径<br/>生成</div></div>
+            <div class="wiz-step"><div class="wiz-dot" id="wd2">📚</div><div class="wiz-lbl">差异化<br/>任务</div></div>
+            <div class="wiz-step"><div class="wiz-dot" id="wd3">💬</div><div class="wiz-lbl">实时<br/>反馈</div></div>
+          </div>
+
+          <!-- Step 0: 学习者画像 -->
+          <div class="wiz-panel active" id="wp0">
+            <h4 style="margin:0 0 5px">第一步：建立学习者画像</h4>
+            <p style="color:var(--muted);font-size:13px;margin:0 0 18px">AI将根据以下信息为你定制专属学习方案，请依次选择</p>
+            <b style="font-size:13px;color:var(--muted)">我的身份</b>
+            <div class="pg c4" id="idGrid">
+              <div class="po" onclick="selP('identity','student','idGrid',this)"><span class="em">🎓</span><b>医学生</b><p>本科/研究生</p></div>
+              <div class="po" onclick="selP('identity','resident','idGrid',this)"><span class="em">🩺</span><b>规培医师</b><p>住院医规范化培训</p></div>
+              <div class="po" onclick="selP('identity','attending','idGrid',this)"><span class="em">👨‍⚕️</span><b>住院/主治</b><p>临床工作医师</p></div>
+              <div class="po" onclick="selP('identity','teacher','idGrid',this)"><span class="em">👨‍🏫</span><b>教师/带教</b><p>教学及课程设计</p></div>
+            </div>
+            <b style="font-size:13px;color:var(--muted)">我的基础水平</b>
+            <div class="pg c3" id="lvGrid">
+              <div class="po" onclick="selP('level','beginner','lvGrid',this)"><span class="em">🌱</span><b>初学入门</b><p>首次系统接触肝癌外科内容</p></div>
+              <div class="po" onclick="selP('level','intermediate','lvGrid',this)"><span class="em">📖</span><b>有一定基础</b><p>了解基本概念，需系统提升</p></div>
+              <div class="po" onclick="selP('level','advanced','lvGrid',this)"><span class="em">🏆</span><b>有临床经验</b><p>有临床或专科学习经验</p></div>
+            </div>
+            <b style="font-size:13px;color:var(--muted)">我的学习目标</b>
+            <div class="pg c4" id="glGrid">
+              <div class="po" onclick="selP('goal','diagnosis','glGrid',this)"><span class="em">🔍</span><b>掌握诊断</b><p>强化诊断与分期思维</p></div>
+              <div class="po" onclick="selP('goal','surgery','glGrid',this)"><span class="em">⚕️</span><b>外科决策</b><p>学会手术适应证与方案</p></div>
+              <div class="po" onclick="selP('goal','exam','glGrid',this)"><span class="em">📝</span><b>备考复习</b><p>应对考试或专科轮转</p></div>
+              <div class="po" onclick="selP('goal','teaching','glGrid',this)"><span class="em">💡</span><b>教学准备</b><p>备课、翻转课堂或考核</p></div>
+            </div>
+            <b style="font-size:13px;color:var(--muted)">本次可用学习时间</b>
+            <div class="pg c3" id="tmGrid">
+              <div class="po" onclick="selP('time','short','tmGrid',this)"><span class="em">⚡</span><b>30分钟以内</b><p>快速精要，抓重点</p></div>
+              <div class="po" onclick="selP('time','medium','tmGrid',this)"><span class="em">⏰</span><b>30—60分钟</b><p>完整主线学习</p></div>
+              <div class="po" onclick="selP('time','long','tmGrid',this)"><span class="em">🎯</span><b>60分钟以上</b><p>深度沉浸式学习</p></div>
+            </div>
+            <div class="wiz-nav"><button class="btn" onclick="wizNext(1)">AI生成我的学习路径 →</button></div>
+          </div>
+
+          <!-- Step 1: AI路径生成 -->
+          <div class="wiz-panel" id="wp1">
+            <div class="ai-chip">🤖 AI已分析你的画像，以下是你的专属学习方案</div>
+            <div class="pp-row" id="ppRow"></div>
+            <div class="path-sum" id="pathSum"></div>
+            <h4 style="margin:0 0 10px">个性化学习路径</h4>
+            <div class="path-vis" id="pathVis"></div>
+            <div class="ah" id="adaptHint"></div>
+            <div class="wiz-nav">
+              <button class="btn secondary" onclick="wizNext(0)">← 修改画像</button>
+              <button class="btn" onclick="wizNext(2)">查看差异化任务 →</button>
+            </div>
+          </div>
+
+          <!-- Step 2: 差异化任务 + 资源 -->
+          <div class="wiz-panel" id="wp2">
+            <div class="ai-chip">📚 AI定制差异化学习任务 · 精准资源推荐</div>
+            <h4 style="margin:0 0 4px">三层差异化任务</h4>
+            <p style="color:var(--muted);font-size:12px;margin:0 0 4px">任务难度已根据你的基础水平与学习目标智能调整，点击任意任务立即开始</p>
+            <div class="tgrid" id="taskGrid"></div>
+            <h4 style="margin:18px 0 10px">精准推荐学习资源</h4>
+            <div class="rlist" id="resList"></div>
+            <div class="wiz-nav">
+              <button class="btn secondary" onclick="wizNext(1)">← 返回路径</button>
+              <button class="btn" onclick="wizNext(3)">查看实时反馈 →</button>
+            </div>
+          </div>
+
+          <!-- Step 3: 实时反馈 -->
+          <div class="wiz-panel" id="wp3">
+            <div class="ai-chip">💬 AI实时学习支持 · 动态自适应反馈</div>
+            <h4 style="margin:0 0 4px">实时学情追踪 · 动态调整 · 即时支持</h4>
+            <p style="color:var(--muted);font-size:12px;margin:0 0 14px">AI正在持续分析你的学习行为，以下是基于当前学情的个性化反馈</p>
+            <div class="fbstream" id="fbStream"></div>
+            <div class="wiz-nav" style="justify-content:space-between">
+              <button class="btn secondary" onclick="wizNext(2)">← 返回任务</button>
+              <button class="btn secondary" onclick="refreshFB()">🔄 刷新AI反馈</button>
+              <button class="btn" onclick="go(aiProf.goal==='surgery'?'surgerySim':aiProf.goal==='exam'?'quiz':aiProf.goal==='teaching'?'teacher':'learn')">立即开始学习 →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧面板 -->
+        <div class="span-4" style="display:grid;gap:16px;align-content:start">
+          <div class="card">
+            <h4>🧠 AI引擎原理</h4>
+            <p style="font-size:12px;color:var(--muted);line-height:1.7;margin:0 0 12px">本平台运用<b style="color:var(--cyan)">生成式人工智能</b>技术，通过学习者画像建模、知识掌握度分析和行为轨迹追踪，实时生成个性化学习方案，实现真正的<b style="color:var(--cyan)">因材施教</b>。</p>
+            <div class="ai-side-card" style="border-left-color:var(--purple)"><b>🎯 差异化路径规划</b><p>按身份×水平×目标×时间生成个性化方案，覆盖所有学习者类型</p></div>
+            <div class="ai-side-card" style="border-left-color:var(--cyan)"><b>📊 实时学情追踪</b><p>持续监测模块浏览、答题表现和行为轨迹，动态更新学情画像</p></div>
+            <div class="ai-side-card" style="border-left-color:var(--green)"><b>💡 精准资源推荐</b><p>基于弱点识别和目标匹配，为每位学习者推送最优学习资源</p></div>
+            <div class="ai-side-card" style="border-left-color:var(--gold)"><b>🔄 自适应难度调整</b><p>随学习进度实时更新路径节点优先级和任务难度层级</p></div>
+          </div>
+          <div class="card">
+            <h4>📈 当前学情快照</h4>
+            <div id="snapContent"><p style="font-size:12px;color:var(--muted)">完成学习者画像后，AI将实时生成你的学情快照。</p></div>
+          </div>
+          <div class="card">
+            <h4>🗺 因材施教路径示意</h4>
+            <svg viewBox="0 0 280 320" style="width:100%" xmlns="http://www.w3.org/2000/svg">
+              <rect x="10" y="10" width="260" height="300" rx="20" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.12)"/>
+              <!-- 初学路径 -->
+              <circle cx="70" cy="55" r="26" fill="rgba(69,224,168,.16)" stroke="#45e0a8" stroke-width="2"/>
+              <text x="70" y="51" text-anchor="middle" fill="#45e0a8" font-size="10" font-weight="700">初学</text>
+              <text x="70" y="65" text-anchor="middle" fill="#a9bad0" font-size="9">入门路径</text>
+              <path d="M70 82 L70 108" stroke="#45e0a8" stroke-width="1.5" stroke-dasharray="3 3"/>
+              <rect x="36" y="108" width="68" height="30" rx="10" fill="rgba(69,224,168,.12)" stroke="#45e0a8" stroke-width="1.5"/>
+              <text x="70" y="127" text-anchor="middle" fill="#45e0a8" font-size="9" font-weight="700">解剖→诊断→基础评测</text>
+              <!-- 进阶路径 -->
+              <circle cx="140" cy="55" r="26" fill="rgba(255,211,110,.16)" stroke="#ffd36e" stroke-width="2"/>
+              <text x="140" y="51" text-anchor="middle" fill="#ffd36e" font-size="10" font-weight="700">进阶</text>
+              <text x="140" y="65" text-anchor="middle" fill="#a9bad0" font-size="9">标准路径</text>
+              <path d="M140 82 L140 108" stroke="#ffd36e" stroke-width="1.5" stroke-dasharray="3 3"/>
+              <rect x="106" y="108" width="68" height="30" rx="10" fill="rgba(255,211,110,.12)" stroke="#ffd36e" stroke-width="1.5"/>
+              <text x="140" y="127" text-anchor="middle" fill="#ffd36e" font-size="9" font-weight="700">病例→手术→评测</text>
+              <!-- 高阶路径 -->
+              <circle cx="210" cy="55" r="26" fill="rgba(167,139,250,.16)" stroke="#a78bfa" stroke-width="2"/>
+              <text x="210" y="51" text-anchor="middle" fill="#a78bfa" font-size="10" font-weight="700">高阶</text>
+              <text x="210" y="65" text-anchor="middle" fill="#a9bad0" font-size="9">精练路径</text>
+              <path d="M210 82 L210 108" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="3 3"/>
+              <rect x="176" y="108" width="68" height="30" rx="10" fill="rgba(167,139,250,.12)" stroke="#a78bfa" stroke-width="1.5"/>
+              <text x="210" y="127" text-anchor="middle" fill="#a78bfa" font-size="9" font-weight="700">MDT→前沿→复杂病例</text>
+              <!-- 汇聚 -->
+              <path d="M70 138 C70 168 140 175 140 185" stroke="#45e0a8" stroke-width="1.5" fill="none"/>
+              <path d="M140 138 L140 185" stroke="#ffd36e" stroke-width="1.5"/>
+              <path d="M210 138 C210 168 140 175 140 185" stroke="#a78bfa" stroke-width="1.5" fill="none"/>
+              <rect x="90" y="185" width="100" height="32" rx="12" fill="rgba(52,183,255,.16)" stroke="#34b7ff" stroke-width="1.5"/>
+              <text x="140" y="205" text-anchor="middle" fill="#34b7ff" font-size="10" font-weight="700">AI实时反馈调整</text>
+              <path d="M140 217 L140 240" stroke="#34b7ff" stroke-width="1.5" stroke-dasharray="3 3"/>
+              <rect x="90" y="240" width="100" height="32" rx="12" fill="rgba(111,231,255,.14)" stroke="#6fe7ff" stroke-width="1.5"/>
+              <text x="140" y="260" text-anchor="middle" fill="#6fe7ff" font-size="10" font-weight="700">个性化学情报告</text>
+              <!-- AI标注 -->
+              <text x="25" y="170" fill="#a78bfa" font-size="9">AI动态</text>
+              <text x="25" y="182" fill="#a78bfa" font-size="9">路径优化</text>
+              <path d="M60 175 L90 200" stroke="#a78bfa" stroke-width="1" stroke-dasharray="2 2"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 </div>
 
@@ -730,6 +954,329 @@ function updateAnalytics(){
 let tipTimer;
 function tip(text){const t=document.getElementById('tip');document.getElementById('tipText').textContent=text;t.style.display='block';clearTimeout(tipTimer);tipTimer=setTimeout(()=>t.style.display='none',3600)}
 renderQuiz();updateProgress();updateAnalytics();
+
+// ========== AI 个性化学习路径引擎 ==========
+const aiProf = {identity:null, level:null, goal:null, time:null};
+
+function selP(key, val, gridId, el) {
+  aiProf[key] = val;
+  document.querySelectorAll('#'+gridId+' .po').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel');
+  updateSnap();
+}
+
+function wizNext(step) {
+  if (step === 1) {
+    const missing = ['identity','level','goal','time'].filter(k=>!aiProf[k]);
+    if (missing.length) { tip('请先完成所有选项，AI需要完整画像才能生成最优路径。'); return; }
+    buildPath();
+  }
+  if (step === 2) buildTasksRes();
+  if (step === 3) buildFeedback();
+  document.querySelectorAll('.wiz-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('wp'+step).classList.add('active');
+  ['wd0','wd1','wd2','wd3'].forEach((id,i)=>{
+    const d=document.getElementById(id);
+    d.classList.remove('done','active');
+    if(i<step) d.classList.add('done'); else if(i===step) d.classList.add('active');
+  });
+}
+
+// 所有可用模块配置
+const allMods = [
+  {id:'learn',tab:'anatomy',  title:'肝脏外科解剖基础',  icon:'🫀',pri:'high',mins:15,desc:'Couinaud肝段、血管走行、外科解剖要点'},
+  {id:'learn',tab:'diagnosis',title:'诊断路径与分期评估',  icon:'🔬',pri:'high',mins:20,desc:'影像动态增强、AFP局限性、BCLC/CNLC分期'},
+  {id:'learn',tab:'treatment',title:'综合治疗策略',        icon:'💊',pri:'mid', mins:15,desc:'根治、局部区域、系统治疗与转化治疗'},
+  {id:'learn',tab:'surgery',  title:'外科治疗决策',        icon:'⚕️',pri:'high',mins:18,desc:'可切除性三要素、手术方式比较、围手术期管理'},
+  {id:'case', tab:null,       title:'交互病例推演',        icon:'🩺',pri:'high',mins:20,desc:'模拟真实临床决策链，系统记录答题情况'},
+  {id:'interactive',tab:null, title:'深度交互训练',        icon:'🧬',pri:'mid', mins:25,desc:'肝段定位图、治疗路径决策树、手术设计流程'},
+  {id:'surgerySim',tab:null,  title:'手术模拟中心',        icon:'🔬',pri:'mid', mins:30,desc:'12步肝切除全过程训练，术中风险识别互动'},
+  {id:'frontier',tab:null,    title:'前沿进展',            icon:'🚀',pri:'low', mins:20,desc:'免疫联合、转化治疗、AI辅助、精准肝切除'},
+  {id:'quiz',  tab:null,      title:'随堂评测',            icon:'📝',pri:'high',mins:12,desc:'5题核心知识测验，生成薄弱点诊断报告'},
+  {id:'analytics',tab:null,   title:'学情分析报告',        icon:'📊',pri:'mid', mins:8, desc:'综合掌握度可视化与个性化学习建议'},
+];
+
+function buildPath() {
+  const {identity,level,goal,time} = aiProf;
+  let mods = allMods.map(m=>({...m}));
+
+  // 目标导向调整优先级
+  if(goal==='diagnosis'){
+    mods.forEach(m=>{ if(['anatomy','diagnosis'].includes(m.tab)||m.id==='case') m.pri='high'; });
+  } else if(goal==='surgery'){
+    mods.forEach(m=>{ if(m.tab==='surgery'||m.id==='surgerySim'||m.id==='interactive') m.pri='high'; });
+  } else if(goal==='exam'){
+    mods.forEach(m=>{ if(m.id==='quiz'||['anatomy','diagnosis','treatment','surgery'].includes(m.tab)) m.pri='high'; if(m.id==='frontier') m.pri='low'; });
+  } else if(goal==='teaching'){
+    mods.forEach(m=>{ if(m.id==='frontier'||m.id==='interactive') m.pri='high'; });
+  }
+
+  // 水平导向调整
+  if(level==='beginner'){
+    mods.forEach(m=>{ if(['anatomy','diagnosis'].includes(m.tab)) m.pri='high'; if(m.id==='surgerySim'||m.id==='frontier') m.pri='low'; });
+  } else if(level==='advanced'){
+    mods.forEach(m=>{ if(m.tab==='anatomy') m.pri='low'; if(m.id==='surgerySim'||m.id==='frontier'||m.id==='interactive') m.pri='high'; });
+  }
+
+  // 时间过滤
+  if(time==='short')  mods=mods.filter(m=>m.pri==='high');
+  else if(time==='medium') mods=mods.filter(m=>m.pri!=='low');
+
+  // 排序 & 去重
+  const ord={high:0,mid:1,low:2};
+  const seen=new Set();
+  mods = mods.filter(m=>{ const k=m.id+'_'+m.tab; return seen.has(k)?false:seen.add(k)||true; });
+  mods.sort((a,b)=>ord[a.pri]-ord[b.pri]);
+
+  // 画像标签
+  const idLbl={student:'医学生',resident:'规培医师',attending:'住院/主治',teacher:'教师/带教'};
+  const lvLbl={beginner:'初学入门',intermediate:'有一定基础',advanced:'有临床经验'};
+  const glLbl={diagnosis:'掌握诊断',surgery:'外科决策',exam:'备考复习',teaching:'教学准备'};
+  const tmLbl={short:'≤30分钟',medium:'30-60分钟',long:'≥60分钟'};
+
+  document.getElementById('ppRow').innerHTML=`<span style="font-size:12px;color:var(--muted);flex-shrink:0">你的画像：</span>
+    <span class="pptag ppt-id">${idLbl[identity]}</span>
+    <span class="pptag ppt-lv">${lvLbl[level]}</span>
+    <span class="pptag ppt-gl">${glLbl[goal]}</span>
+    <span class="pptag ppt-tm">${tmLbl[time]}</span>`;
+
+  const totalMins=mods.reduce((s,m)=>s+m.mins,0);
+  const highN=mods.filter(m=>m.pri==='high').length;
+  const modeLabel={beginner:'循序渐进',intermediate:'系统提升',advanced:'精练深化'}[level];
+  document.getElementById('pathSum').innerHTML=`
+    <div class="psum"><strong>${mods.length}</strong><small>推荐模块</small></div>
+    <div class="psum"><strong>${totalMins}<span style="font-size:12px">分钟</span></strong><small>预估时长</small></div>
+    <div class="psum"><strong>${highN}</strong><small>必学模块</small></div>
+    <div class="psum"><strong>${modeLabel}</strong><small>推荐模式</small></div>`;
+
+  document.getElementById('pathVis').innerHTML=mods.map((m,i)=>`
+    <div class="pnode ${state.visited.has(m.id)?'done':''}" onclick="toMod('${m.id}','${m.tab||''}')">
+      <div class="nnum ${m.pri==='high'?'nh':m.pri==='mid'?'nm':'nl'}">${i+1}</div>
+      <div class="nbody">
+        <div class="ntitle">${m.icon} ${m.title}</div>
+        <div class="nmeta">⏱ ${m.mins}分钟 · ${m.desc}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+        <span class="nbadge ${m.pri==='high'?'nb-must':m.pri==='mid'?'nb-rec':'nb-opt'}">${m.pri==='high'?'必学':m.pri==='mid'?'推荐':'选修'}</span>
+        ${state.visited.has(m.id)?'<span style="color:var(--green);font-size:15px">✓</span>':''}
+      </div>
+    </div>`).join('');
+
+  const hints={
+    beginner:{icon:'🌱',title:'给初学者的AI提示',text:'建议从解剖基础打好空间结构根基再进入诊断决策。"知道在哪里"是"知道怎么切"的前提，不要急于跳过解剖直接看手术。'},
+    intermediate:{icon:'📖',title:'给进阶学习者的AI提示',text:'你已具备基础，重点在"临床决策链"的整合训练。以病例推演为核心，把解剖、影像、分期、治疗连贯成一套完整的思维框架。'},
+    advanced:{icon:'🏆',title:'给有经验学习者的AI提示',text:'建议聚焦前沿进展和复杂MDT病例。转化治疗、围手术期免疫策略和MRD监测是当前临床争议最多的领域，值得深入探讨。'},
+  };
+  const h=hints[level];
+  document.getElementById('adaptHint').innerHTML=`<div class="ah-icon">${h.icon}</div><div><div class="ah-title">${h.title}</div><div class="ah-text">${h.text}</div></div>`;
+}
+
+// 任务库
+const taskDB = {
+  basic:[
+    {title:'解剖速记：指认5个肝段',desc:'在肝段图上指认Ⅱ、Ⅲ、Ⅳ、Ⅴ、Ⅷ段，并说明各肝段的外科意义。完成后与同伴核对。',target:'learn'},
+    {title:'诊断关键词填写',desc:'列出肝癌诊断证据链4个核心环节：高危背景、___、影像特征、___。',target:'learn'},
+    {title:'识别影像三期强化模式',desc:'观察动脉期和门静脉期图像，判断哪种强化模式符合HCC典型表现。',target:'imageLab'},
+    {title:'BCLC分期速查',desc:'对照BCLC分期标准，列出0/A/B/C/D期的主要判断条件和各期首选治疗。',target:'quiz'},
+  ],
+  core:[
+    {title:'病例分析：判断可切除性',desc:'根据"58岁，乙肝，4.8cm HCC，Child-Pugh A"，判断是否可手术并列出评估依据清单。',target:'case'},
+    {title:'治疗方案比较',desc:'针对同一患者，比较肝切除、消融和TACE的适应证差异，说出各自的关键条件。',target:'learn'},
+    {title:'手术步骤风险预判',desc:'在手术模拟中选择任意步骤，说出该步骤最重要的风险点及预防策略。',target:'surgerySim'},
+    {title:'错题精准复习',desc:'完成随堂评测后，针对答错题目找到对应模块，完成定点补强学习。',target:'quiz'},
+  ],
+  advanced:[
+    {title:'MDT方案设计',desc:'以介入科身份为局部进展期患者制定TACE联合系统治疗方案，并说出疗效评估时间节点。',target:'interactive'},
+    {title:'转化治疗时机判断',desc:'患者经免疫联合治疗3周期后肿瘤缩小30%，评估是否达到二期切除条件并给出完整理由。',target:'frontier'},
+    {title:'全程管理方案设计',desc:'为MVI阳性肝癌术后患者设计随访和辅助治疗方案，包括复查频率、监测指标和干预时机。',target:'analytics'},
+    {title:'翻转课堂教学设计',desc:'围绕本平台的病例，设计翻转课堂方案：课前预习任务→课中互动环节→课后评估闭环。',target:'teacher'},
+  ]
+};
+
+function pickTasks(profile) {
+  const {level,goal} = profile;
+  // 每列各选2个最适配的任务
+  let bi=[0,1], co=[0,1], ad=[0,1];
+  if(goal==='diagnosis') { bi=[0,2]; co=[0,3]; }
+  else if(goal==='surgery') { bi=[0,2]; co=[0,2]; ad=[0,2]; }
+  else if(goal==='exam') { bi=[3,1]; co=[3,1]; }
+  else if(goal==='teaching') { bi=[1,0]; ad=[3,1]; }
+  if(level==='advanced') { bi=[2,0]; ad=[0,1]; }
+  return {
+    basic: bi.map(i=>taskDB.basic[i]).slice(0,2),
+    core:  co.map(i=>taskDB.core[i]).slice(0,2),
+    advanced: ad.map(i=>taskDB.advanced[i]).slice(0,2),
+  };
+}
+
+// 资源库
+const resDB=[
+  {icon:'🎬',type:'rv',title:'肝段解剖可视化讲解',desc:'结合交互SVG图系统讲解Couinaud分段与外科意义',tags:['解剖','肝段','可视化'],goals:['diagnosis','surgery'],levels:['beginner','intermediate'],score:95,target:'learn'},
+  {icon:'📋',type:'rd',title:'HCC诊断证据链精要',desc:'从高危人群到影像确诊的完整路径，含AFP解读要点',tags:['诊断','分期','AFP'],goals:['diagnosis','exam'],levels:['beginner','intermediate'],score:93,target:'learn'},
+  {icon:'🩺',type:'rc',title:'典型病例：右肝HCC决策推演',desc:'58岁乙肝患者4.8cm HCC，完整从诊断到手术决策链',tags:['病例','决策','手术'],goals:['surgery','diagnosis'],levels:['intermediate','advanced'],score:92,target:'case'},
+  {icon:'📝',type:'rq',title:'核心知识自测（5题）',desc:'覆盖解剖、诊断、治疗决策和转化治疗的闭卷自测',tags:['测评','自测','查漏'],goals:['exam','surgery'],levels:['beginner','intermediate','advanced'],score:90,target:'quiz'},
+  {icon:'🔬',type:'rs',title:'12步肝切除手术模拟',desc:'术前规划到教学复盘的完整外科思维训练',tags:['手术','模拟','外科'],goals:['surgery'],levels:['intermediate','advanced'],score:94,target:'surgerySim'},
+  {icon:'🚀',type:'rd',title:'免疫联合治疗前沿进展',desc:'PD-1联合抗血管生成，转化治疗时代的临床决策框架',tags:['前沿','免疫','转化'],goals:['surgery','teaching'],levels:['advanced'],score:88,target:'frontier'},
+  {icon:'🧬',type:'rc',title:'MDT角色扮演：复杂病例',desc:'5个专科角色协作，训练多学科综合决策能力',tags:['MDT','多学科','协作'],goals:['surgery','teaching'],levels:['intermediate','advanced'],score:86,target:'interactive'},
+  {icon:'📊',type:'rd',title:'学情诊断与薄弱点定位',desc:'基于测评结果自动生成弱点图谱和个性化复习建议',tags:['分析','弱点','复习'],goals:['exam','diagnosis'],levels:['beginner','intermediate'],score:85,target:'analytics'},
+  {icon:'💡',type:'rd',title:'翻转课堂教学设计模板',desc:'课前预习→课中互动→课后评估的完整教学方案',tags:['教学','翻转课堂','设计'],goals:['teaching'],levels:['intermediate','advanced'],score:96,target:'teacher'},
+  {icon:'🎯',type:'rc',title:'影像读片训练：三期强化模式',desc:'识别动脉期强化-门脉期洗脱-延迟期包膜征诊断链',tags:['影像','读片','诊断'],goals:['diagnosis'],levels:['beginner','intermediate'],score:91,target:'imageLab'},
+];
+
+function scoreRes(r, p) {
+  let s = r.score;
+  if(r.goals.includes(p.goal)) s+=12;
+  if(r.levels.includes(p.level)) s+=8;
+  return s;
+}
+
+function buildTasksRes() {
+  const tasks = pickTasks(aiProf);
+  const mkCard = (t, type) => {
+    const cfg = {
+      basic:   {cls:'tb',lbl:'BASIC 基础任务',  lvCls:'tb',dCls:'dg', btnCls:'bb', dots:[1,0,0,0,0]},
+      core:    {cls:'tm',lbl:'CORE 核心任务',    lvCls:'tm',dCls:'dy', btnCls:'bm', dots:[1,1,1,0,0]},
+      advanced:{cls:'ta',lbl:'ADVANCED 拓展任务',lvCls:'ta',dCls:'dp', btnCls:'ba', dots:[1,1,1,1,1]},
+    }[type];
+    return `<div class="tc ${cfg.cls}">
+      <div class="tlvl ${cfg.lvCls}">${cfg.lbl}</div>
+      <div class="dbar">${cfg.dots.map(d=>`<div class="dd ${d?cfg.dCls:''}"></div>`).join('')}</div>
+      <h4>${t.title}</h4>
+      <p class="tdesc">${t.desc}</p>
+      <button class="tbtn ${cfg.btnCls}" onclick="go('${t.target}')">开始任务 →</button>
+    </div>`;
+  };
+
+  // 2行×3列 = 6张任务卡
+  document.getElementById('taskGrid').innerHTML =
+    tasks.basic.map(t=>mkCard(t,'basic')).join('') +
+    tasks.core.map(t=>mkCard(t,'core')).join('') +
+    tasks.advanced.map(t=>mkCard(t,'advanced')).join('');
+
+  const ranked = resDB.map(r=>({...r,fs:scoreRes(r,aiProf)})).sort((a,b)=>b.fs-a.fs);
+  document.getElementById('resList').innerHTML = ranked.slice(0,5).map(r=>`
+    <div class="ri" onclick="go('${r.target}')">
+      <div class="ricon ${r.type}">${r.icon}</div>
+      <div class="rbody">
+        <div class="rtitle">${r.title}</div>
+        <div class="rdesc">${r.desc}</div>
+        <div class="rtags">${r.tags.map(t=>`<span class="rtag">${t}</span>`).join('')}</div>
+      </div>
+      <div class="mscore">匹配度<br>${Math.min(r.fs,100)}%</div>
+    </div>`).join('');
+}
+
+function buildFeedback() {
+  const items = getFBItems();
+  document.getElementById('fbStream').innerHTML = items.map(fb=>`
+    <div class="fbi f${fb.t}">
+      <div class="fbh"><span class="fbic">${fb.icon}</span><b class="fbtitle">${fb.title}</b><span class="fbtime">${fb.time}</span></div>
+      <div class="fbbody">${fb.body}</div>
+      ${fb.act?`<span class="fbact" onclick="go('${fb.actTarget}')">${fb.act}</span>`:''}
+    </div>`).join('');
+}
+
+function getFBItems() {
+  const now=new Date();
+  const ts=now.getHours()+':'+String(now.getMinutes()).padStart(2,'0');
+  const items=[];
+  const lvLbl={beginner:'初学入门',intermediate:'有一定基础',advanced:'有临床经验'};
+  const mods=allMods.filter(m=>m.pri==='high').length;
+
+  // 路径生成确认
+  items.push({t:'a',icon:'🤖',title:'AI专属路径已生成',time:ts,
+    body:`已根据你的画像（${lvLbl[aiProf.level]||'未选择'}）完成个性化路径规划。推荐${mods}个必学模块，任务已按三层难度分配，资源按匹配度降序推荐。`,act:null});
+
+  // 模块完成情况
+  if(state.modules.size===0){
+    items.push({t:'w',icon:'📌',title:'知识模块尚未开始',time:ts,
+      body:'你还没有进入任何学习模块。根据你的路径规划，建议从第一个高优先级节点启动学习。',act:'立即开始',actTarget:aiProf.goal==='surgery'?'learn':aiProf.goal==='exam'?'quiz':'learn'});
+  } else if(state.modules.size<4){
+    const done=['anatomy','diagnosis','treatment','surgery'].map(k=>state.modules.has(k)?'✓':'○').join(' ');
+    items.push({t:'i',icon:'📖',title:`知识模块完成 ${state.modules.size}/4`,time:ts,
+      body:`解剖 ${state.modules.has('anatomy')?'✓':'○'}  诊断 ${state.modules.has('diagnosis')?'✓':'○'}  治疗 ${state.modules.has('treatment')?'✓':'○'}  外科 ${state.modules.has('surgery')?'✓':'○'}  ·  继续完成剩余模块`,act:'继续学习',actTarget:'learn'});
+  } else {
+    items.push({t:'g',icon:'✅',title:'四大知识模块全部完成',time:ts,
+      body:'系统知识框架已建立！AI建议立即进入交互病例，检验从"知识记忆"到"临床决策"的迁移能力。',act:'进入病例推演',actTarget:'case'});
+  }
+
+  // 病例表现
+  if(state.caseAnswered.size===0){
+    items.push({t:'i',icon:'🩺',title:'建议完成交互病例推演',time:ts,
+      body:'病例推演是AI识别"决策薄弱点"的核心环节。完成后系统将自动更新你的弱点图谱。',act:'进入病例推演',actTarget:'case'});
+  } else if(state.caseCorrect<state.caseAnswered.size){
+    items.push({t:'w',icon:'⚠️',title:`病例推演识别到薄弱点（${state.caseCorrect}/${state.caseAnswered.size}）`,time:ts,
+      body:'AI分析：你在"诊断证据链整合"或"可切除性综合评估"上存在理解盲区，建议回顾诊断和外科决策模块。',act:'重新推演',actTarget:'case'});
+  } else {
+    items.push({t:'g',icon:'🎯',title:`病例决策全部正确（${state.caseCorrect}/${state.caseAnswered.size}）`,time:ts,
+      body:'临床决策链掌握扎实！AI建议进阶到手术模拟中心或MDT角色扮演，提升复杂场景决策能力。',act:null});
+  }
+
+  // 测评
+  if(!state.quizDone){
+    items.push({t:'i',icon:'📝',title:'随堂评测待完成',time:ts,
+      body:'完成评测后，AI将生成精准弱点图谱和个性化复习建议，助你查漏补缺。',act:'进入评测',actTarget:'quiz'});
+  } else if(state.quizCorrect<4){
+    items.push({t:'w',icon:'📊',title:`测评分析：得分 ${state.quizCorrect}/5，有提升空间`,time:ts,
+      body:`AI建议重点复习：${state.quizCorrect<3?'影像学诊断标准和外科决策基础（前3模块）':'肝储备评估与转化治疗策略（后2模块）'}。`,act:'查看学情分析',actTarget:'analytics'});
+  } else {
+    items.push({t:'g',icon:'🌟',title:`测评满分 ${state.quizCorrect}/5！核心知识掌握扎实`,time:ts,
+      body:'AI建议探索前沿进展和复杂MDT病例，从"知识掌握"进阶到"高阶决策思维"。',act:'查看前沿进展',actTarget:'frontier'});
+  }
+
+  // 目标专项反馈
+  const goalFB = {
+    diagnosis:{t:'a',icon:'🔍',title:'诊断目标追踪',body:'重点考点：影像动态增强三期特征、AFP解读局限性、BCLC/CNLC分期判断逻辑。建议重复阅读图像课堂和诊断模块。'},
+    surgery:  {t:'a',icon:'⚕️',title:'外科决策目标追踪',body:'重点训练：可切除性三要素（肿瘤学+功能学+残肝体积）、手术方式比较、围手术期并发症管理。'},
+    exam:     {t:'a',icon:'📝',title:'备考策略建议',body:'高频考点：影像诊断模式、肝功能储备评估、治疗适应证选择。以测评为核心，反复强化答错题对应的知识模块。'},
+    teaching: {t:'a',icon:'💡',title:'教学设计建议',body:'路径建议：解剖+影像模块演示 → 交互病例引发课堂讨论 → 学情分析报告完成教学评估闭环。'},
+  };
+  if(aiProf.goal && goalFB[aiProf.goal]) items.push({...goalFB[aiProf.goal],time:ts,act:null});
+
+  // 整体进度
+  const prog=calcProgress();
+  if(prog>=50){
+    items.push({t:'g',icon:'🚀',title:`整体完成度 ${prog}%，继续保持！`,time:ts,
+      body:`完成度已超过${prog}%。${prog>=80?'AI建议进行MDT角色扮演和复杂病例讨论，提升高阶临床思维。':'继续按路径推进，完成全部核心模块后生成完整学情报告。'}`,act:'查看学情分析',actTarget:'analytics'});
+  }
+
+  return items;
+}
+
+function refreshFB() {
+  buildFeedback();
+  updateSnap();
+  tip('AI反馈已刷新，根据你最新的学习状态动态生成。');
+}
+
+function toMod(id, tab) {
+  go(id);
+  if(tab) setTimeout(()=>{
+    const btn=[...document.querySelectorAll('.tab')].find(b=>b.getAttribute('onclick')?.includes(`'${tab}'`));
+    if(btn){ document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active')); btn.classList.add('active'); showModule(tab,btn); }
+  },120);
+}
+
+function updateSnap() {
+  const idLbl={student:'医学生',resident:'规培医师',attending:'住院/主治',teacher:'教师/带教'};
+  const lvLbl={beginner:'初学入门',intermediate:'有一定基础',advanced:'有临床经验'};
+  const glLbl={diagnosis:'掌握诊断',surgery:'外科决策',exam:'备考复习',teaching:'教学准备'};
+  const prog=calcProgress();
+  document.getElementById('snapContent').innerHTML=`
+    <div style="display:grid;gap:4px">
+      <div class="snap-row"><span>身份</span><b>${idLbl[aiProf.identity]||'未设置'}</b></div>
+      <div class="snap-row"><span>水平</span><b>${lvLbl[aiProf.level]||'未设置'}</b></div>
+      <div class="snap-row"><span>目标</span><b>${glLbl[aiProf.goal]||'未设置'}</b></div>
+      <div style="height:1px;background:var(--line);margin:6px 0"></div>
+      <div class="snap-row"><span>模块完成</span><b>${state.modules.size}/4</b></div>
+      <div class="snap-row"><span>病例得分</span><b>${state.caseAnswered.size?state.caseCorrect+'/'+state.caseAnswered.size:'未开始'}</b></div>
+      <div class="snap-row"><span>测评得分</span><b>${state.quizDone?state.quizCorrect+'/5':'未完成'}</b></div>
+      <div style="height:1px;background:var(--line);margin:6px 0"></div>
+      <div class="snap-row"><span>综合完成度</span><b style="color:var(--cyan)">${prog}%</b></div>
+      <div class="meter" style="margin-top:5px"><span style="width:${prog}%"></span></div>
+    </div>`;
+}
+// ========== END AI 个性化学习路径引擎 ==========
 </script>
 </body>
 </html>
